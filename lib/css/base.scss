@@ -1,0 +1,108 @@
+@charset 'utf-8';
+
+/*
+*
+* ******color
+* 
+ */
+
+/* 画板颜色 */
+$p-bg : #F7F7F7; //背景颜色
+$p-line : #AAAAAA; //线的颜色
+$p-color : #333333; //文字
+
+/* 标志信息 */
+$green : #078F25; //绿色
+$red : #C40000; //红色
+$yellow : #CF9820; //警示色
+
+/* 主色调 */
+$main-color : #F4BB00;
+
+/* 主字体 */
+$font-color : #666; 
+
+/* 主线颜色 */
+$line-color : lighten($font-color, 40%);	
+
+/* 主宽度 */
+$main-width : 1200px;
+
+
+/* 模块 */
+.btn{
+	display:inline-block;
+	padding: 10px 30px;
+	font-size: 18px;
+	border-radius: 5px; 
+	background:#fff;
+	border:none;
+	line-height: 20px;
+	&:hover{
+		background: darken(#fff, 5%);
+	}
+	&.btn-main{
+		background: $main-color;
+		color:#fff;
+		&:hover{
+			background: darken($main-color, 5%);
+		}
+	}
+	&.btn-gray{
+		background: lighten($font-color, 20%);
+		&:hover{
+			background: lighten($font-color, 10%);
+		}
+	}
+	&.btn-mid{
+		padding:8px 20px;
+		font-size: 14px;
+	}
+	&.btn-small{
+		padding:0px 10px;
+		font-size: 14px;
+	}
+}
+
+/* 表单框 */
+.checked{
+	margin-right: 20px;
+	cursor:pointer;
+	.fa{
+		position:relative;
+		top:1px;
+	}
+	.fa-check-square-o{
+		display:none;
+	}
+	&.active{
+		.fa-check-square-o{
+			display:inline-block;
+		}
+		.fa-square-o{
+			display:none;
+		}
+	}
+}	
+
+/* 页码 */
+.page{
+	width:100%;
+	text-align: right;
+	a, span{
+		color:$font-color;
+		display:inline-block;
+		padding:1px 10px;
+		margin-left: 10px;
+	}
+	a{
+		border:$line-color solid 1px;
+		&:hover{
+			color:$main-color;
+		}
+	}
+	span.active{
+		border:$main-color solid 1px;
+		color:$main-color;
+	}
+}

@@ -1,0 +1,44 @@
+<!-- //导航 -->
+<nav class="nav">
+	
+	<div class="nav-inner m0a fn-clear">
+		<!-- //logo -->
+		<div class="logo fn-left">
+			<a href="/">优思答疑</a>
+		</div>
+		<!-- //logo end -->
+		
+		<!-- //链接 -->
+	
+		<!-- //链接 end -->
+
+		<!-- //登录 -->
+		<div class="fn-right">
+			<a href="/answer">房间列表</a>
+			<a href="/app">下载APP</a>
+			<% if(user.username){ %>
+			<a href="/user/tutor"><%-user.username %></a>
+			<% } else { %>
+			<a href="/account/tutorLogin">教师入口</a>
+			<% } %>
+			
+			<!--
+			<a class='' href="/users/login">
+				<i class="fa fa-user-plus"></i>
+				注册
+			</a>
+			<a href="/users/login">
+				<i class="fa fa-user"></i>
+				登录
+			</a>
+			-->
+		</div>
+		<!-- //登录 end -->
+	</div>
+
+</nav>
+<!-- //导航 end -->
+
+<!-- //弹出框 -->
+<link rel="import" href="/views/public/pop.html?__inline">
+<!-- //弹出框 end -->

@@ -1,0 +1,58 @@
+@charset 'utf-8';
+
+@import "/lib/css/normalize";
+@import "/lib/css/base";
+
+/*
+* 房间列表
+ */
+.app{
+	margin-top: 100px !important;
+	&>.fn-right{
+		width: 480px;
+		.app-icon{
+			margin-top: 90px;
+			width:100%;
+			height:90px;
+			border-radius: 10px;
+			img{
+				border-radius: 10px;
+				box-shadow: 0 0 5px $line-color;
+			}
+		}
+		h2{
+			margin-top:20px;
+			margin-bottom: 10px;
+			strong{
+				font-weight: normal;
+				font-size: 30px;
+				color:$main-color;
+			}
+			font-size: 14px;
+			color:lighten($font-color, 20%);
+		}
+		p{
+			text-align: center;
+			color:lighten($font-color, 10%);
+		}
+	}
+}
+.app-icon-download{
+	width:300px;
+	margin-top: 40px;
+	.fn-left{
+		width:150px;
+		a{
+			display:block;
+			width:150px;
+			height:43px;
+			margin-bottom: 30px;
+		}
+		a.app-ios-download{
+			background: url('/lib/images/app-ios-download.png?__sprite') no-repeat;
+		}
+		a.app-android-download{
+			background: url('/lib/images/app-android-download.png?__sprite') no-repeat;
+		}
+	}
+}

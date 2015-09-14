@@ -1,0 +1,71 @@
+@charset 'utf-8';
+
+@import "/lib/css/normalize";
+@import "/lib/css/base";
+
+/*
+* 首页
+ */
+.index-body{
+	width:100%;
+	height: 100%;
+}
+.main-viewport{
+	position: relative;
+	width: 100%;
+	height:100%;
+	ul{
+		position:absolute;
+		width:100%;
+		height:100%;
+		z-index: 1;
+		li{
+			float: left;
+			width:100%;
+			height:100%;
+			background-position:center;
+			background-repeat: no-repeat; 
+			a{
+				display:block;
+				width:100%;
+				height:100%;
+			}
+		}
+	}
+}
+.index-ctn{
+	position:absolute;
+	top:30%;
+	left:50%;
+	margin-left: -250px;
+	width:500px;
+	z-index: 5;
+	color:#fff;
+	text-align: center;
+	font-size: 16px;
+	h1{
+		font-weight: normal;
+		font-size: 30px;
+	}
+	p{
+		margin:15px 0;
+	}
+	div.index-ctn-btn-wrap{
+		width:100%;
+		text-align: center;
+		a{
+			margin-right: 30px;
+			position:relative;
+			left:15px;
+			opacity: 0.8;
+		}
+	}
+}
+.nav-wrap-index{
+	position:absolute;
+	bottom:0;
+	left:0;
+	z-index: 5;
+	width:100%;
+	height:70px;
+}

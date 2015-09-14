@@ -1,0 +1,63 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/web/account.scss">
+<body>
+
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //账号框 -->
+<div class="account-wrap m0a">
+	<h1>注册</h1>
+	<form action="">
+		<dl>
+			<dt>手机号码：</dt>
+			<dd>
+				<input type="text" class='input' name='phone' required='required'>
+				<span class="errorMsg">密码不能为空</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>验 证 码 ：</dt>
+			<dd class='verify_wrap'>
+				<input type="text" class='input' name='verify' required='required'>
+				<a href="#" class='btn btn-main btn-mid'>获取验证码</a>
+				<span class="errorMsg">密码不能为空</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>设置密码：</dt>
+			<dd class='mul-input'>
+				<input type="password" class='input pwd' name='password' required='required'>
+				<input type="text" class='input txt fn-hide' name='password' required='required'>
+				<i class="fa fa-eye fn-hide"></i>
+				<i class="fa fa-eye-slash"></i>
+				<span class="errorMsg"></span>
+			</dd>
+		</dl>
+		<dl>
+			<dt></dt>
+			<dd class='text-right'>
+				<a href="#">没有账号，去注册</a>
+			</dd>
+		</dl>
+		<dl>
+			<dt></dt>
+			<dd>
+				<button class='btn btn-main'>注册</button>
+				<span class="errorMsg"></span>
+				<span class="successMsg"></span>
+			</dd>
+		</dl>
+	</form>
+</div>
+<!-- //账号框 end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
+
+</body>
+</html>

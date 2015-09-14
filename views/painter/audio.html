@@ -1,0 +1,41 @@
+<p>等待js文件加载...</p>
+
+<a href="javascript:void(0)" onclick="startAudio()">开始录音</a>
+<a href="http://139.196.24.119/api/answer/concat?id=xxx">合并录音</a>
+
+<script type="text/javascript" src="/js/audio/recorder.js"></script>
+<script type="text/javascript">
+function startAudio() {
+	var DOMAIN = 'http://139.196.24.119';
+
+	var config = {
+		answerID: 'xxx',
+        uploadTokenUrl: "http://139.196.24.119" + "/api/answer/uploadToken",
+        addAudioSliceUrl: "http://139.196.24.119" + "/api/answer/addAudioSlice",
+        RECORD_WORKER_PATH: "http://139.196.24.119" + "/js/audio/worker.js",
+        UPLOAD_WORKER_PATH: "http://139.196.24.119" + "/js/audio/upload.js",
+       	FFMPEG_WORKER_PATH: "http://139.196.24.119" + "/js/audio/ffmpeg_asm.js"		
+	}
+
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	var audioContext = new AudioContext();
+	var audioInput;
+
+	function gotStream(stream) {
+		audioInput = audioContext.createMediaStreamSource(stream);
+		recorder.init(audioInput, config, function(){
+			console.log('音频加载成功！');
+		}, function () {
+			console.log('last audio slice uploaded!');
+		});
+		recorder.record();
+	}
+
+	navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+	navigator.getUserMedia({
+		"audio": true 
+	}, gotStream, function (e) {
+		if (e) alert('获取麦克风失败！');
+	});
+}
+</script>

@@ -1,0 +1,277 @@
+@charset 'utf-8';
+
+@import "/lib/css/normalize";
+@import "/lib/css/base";
+html{
+	height: 100%;
+}
+body{
+    font-family: 'Hiragino Sans GB', 'Hiragino Sans GB W3', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+    min-width: 1440px;
+    height: 100%;
+}
+.border-box{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+.shadow{
+	position: fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgb(0, 0, 0);
+	background:rgba(0, 0, 0, 0.5);
+	z-index: 100;
+}
+.warning{
+	color:$yellow;
+}
+.danger{
+	color:$red;
+}
+.errorMsg{
+	font-size: 14px;
+	color:$red;
+}
+.successMsg{
+	font-size: 14px;
+	color:$green;
+}
+.pop{
+	box-sizing : border-box;
+	-webkit-box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	width:550px;
+	padding: 20px;
+	position:fixed;
+	top : 10%;
+	left : 50%;
+	margin-left: -275px;
+	background:$p-bg;
+	border:$p-line solid 1px;
+	z-index: 150;
+	.pop-content{
+		padding:10px 0;
+	}
+	.pop-btn-wrap{
+		margin-top: 20px;
+		.pop-btn{
+			display:inline-block;
+			width:90px;
+			height:30px;
+			margin-right: 20px;
+			text-align: center;
+			line-height: 30px;
+			font-size: 14px;
+			color:#fff;
+			&.disabled{
+				background:lighten($p-color, 20%);
+				cursor: default;
+				&:hover{
+					background:lighten($p-color, 20%);
+				}
+			}
+		}
+		.pop-btn-submit{
+			background:$green;
+			&:hover{
+				background:darken($green, 5%);
+			}
+		}
+		.pop-btn-cancel{
+			background:$red;
+			&:hover{
+				background:darken($red, 5%);
+			}
+		}
+	}
+}
+.p-evaluate{
+	position:fixed;
+	top:20%;
+	left:50%;
+	z-index: 110;
+	-webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+	-o-box-sizing: border-box; 
+	box-sizing: border-box; 
+	width:500px;
+	height:300px;
+	padding:10px 20px;
+	margin-left: -250px;
+	background:#fff;
+	color:lighten($p-color, 10%);
+	border:lighten($p-line, 10%) solid 1px;
+	&>i.close{
+		position:absolute;
+		right:10px;
+		top:10px;
+		color:lighten($p-color, 40%);
+		&:hover{
+			color:$red;
+			cursor:pointer;
+		}
+	}
+	h2{
+		width:100%;
+		padding-bottom: 10px;
+		font-size: 16px;
+		color:$p-color;
+		border-bottom: lighten($p-line, 20%) solid 1px;
+	}
+	dl{
+		position:relative;
+		width:100%;
+		padding-left: 55px;
+		margin-bottom: 25px;
+		dt,dd{
+			margin:0;
+			padding:0;
+		}
+		dt{
+			position:absolute;
+			left:0;
+		}
+		dd{
+			
+			textarea{
+				width:400px;
+				height:100px;
+				border:lighten($p-line, 5%) solid 1px;
+				font-size: 14px;
+			}
+			.evaluate-btn{
+				display:inline-block;
+				padding:0 15px;
+				height:30px;
+				text-align: center;
+				line-height: 30px;
+				color:#fff;
+				&.submit{
+					background:$green;
+					&:hover{
+						background:darken($green, 5%);
+					}
+				}
+				&.cancel{
+					background:$red;
+					&:hover{
+						background:darken($red, 5%);
+					}
+				}
+			}
+		}
+		dd.p-evaluate-star{
+			color:$red;
+			cursor:pointer;
+			&:hover{
+				color:$yellow;
+			}		
+		}
+	}
+}
+
+//弹出框
+.reconnect{
+	.reconnect-link{
+		font-size: 14px;
+		color:lighten($font-color, 20%);
+		margin-left: 20px;
+		text-decoration: underline;
+		&:hover{
+			color:$main-color;
+		}
+	}
+}
+
+// nav
+.nav{
+	width:100%;
+	height:70px;
+	line-height: 70px;
+	background:#fff; 
+	.nav-inner{
+		width:$main-width;
+		height:100%;
+	}
+	.logo{
+		font-size: 24px;
+		a{
+			color:$main-color;
+		}	
+	}
+	.fn-right{
+		font-size: 14px;
+		a{
+			margin-left: 20px;
+			&:hover{
+				color:$main-color;
+			}
+		}
+	}
+}
+.yellow-nav{
+	border-bottom: 2px solid $main-color;
+	box-shadow: 0 0px 5px lighten($font-color, 10%);
+}
+.input{
+	border:$font-color solid 1px;
+	text-indent: 1em;
+	outline: none;
+	&:focus{
+		border:$main-color solid 1px;
+	}
+	&.error{
+		border : $red solid 1px;
+	}
+}
+.mul-input{
+	position:relative;
+	.fa{
+		position:relative;
+		left:-30px;
+		cursor:pointer;
+	}
+}
+.text-right{
+	text-align: right;
+}
+.text-center{
+	text-align: center;
+}
+
+//公共样式
+.border-box{
+	-moz-box-sizing: border-box;  /*Firefox3.5+*/
+    -webkit-box-sizing: border-box; /*Safari3.2+*/
+    -o-box-sizing: border-box; /*Opera9.6*/
+    -ms-box-sizing: border-box; /*IE8*/
+    box-sizing: border-box;
+}
+.text-center{
+	text-align: center;
+}
+
+//脚步
+.footer{
+	margin-top: 100px;
+	padding:40px 0;
+	text-align: center;
+	font-size: 12px;
+	color:#fff;
+	background:$font-color;
+}
+
+//框架
+.main{
+	width : $main-width;
+	margin-top: 40px !important;
+	&>.left{
+		width:200px;
+	}
+	&>.right{
+		width:980px;
+	}
+}

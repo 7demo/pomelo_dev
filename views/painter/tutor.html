@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>这是画板</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name='renderer' content="webkit">
+	<meta name="360-site-verification" content="7175bd50683ee48de9180cd00b6e95fd">
+	<link rel="stylesheet" href="/lib/compontent/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/lib/css/common.scss">
+	<link rel="stylesheet" href="/lib/css/painter.scss">
+</head>
+<body class='border-box p-body'>
+	
+	<!-- //header -->
+	<div class="p-header border-box fn-clear">
+		<div class="fn-left">
+			<h1 id='roomNumber'>000号房间</h1>
+		</div>
+		<div class="fn-right">
+			<span>
+				<img src="/images/p-photo.jpg" alt="">
+			</span>
+			<strong>SAMPAN</strong>
+			<i class="fa fa-sort-desc"></i>
+		</div>
+	</div>
+	<!-- //header end -->
+
+	<!-- //main -->
+	<div class="p-main fn-clear border-box">
+
+		<!-- //左边工具栏 -->
+		<div class="p-tool-wrap border-box">
+			<ul class='tool-type'>
+				<li id='pencil' class='border-box active' data-type='pencil' data-cursor='url(/img/sketch/line.cur) 0 16, default'  title="画笔">
+					<i class="fa fa-pencil"></i>
+					<span>2px</span>
+				</li>
+				<li id='line' class='border-box' data-type='line' data-cursor='url(/img/sketch/shape.cur) 0 16, default' title="直线">
+					<i class="fa fa-minus"></i>
+				</li>
+				<li id='eraser' class='border-box' data-type='earser' data-cursor='url(/img/sketch/eraser.cur), default;' title="橡皮擦">
+					<i class="fa fa-eraser"></i>
+				</li>
+				<li id='move' class='border-box' data-type='move' data-cursor='url(/img/sketch/move.cur), deault' title="移动">
+					<i class="fa fa-arrows"></i>
+				</li>
+			</ul>
+
+			<!-- <ul>
+				<li class='border-box tool-pencil-line active' title="实线" data-value='solid'>
+					<i class="fa fa-minus"></i>
+				</li>
+				<li class='border-box tool-pencil-line ' title="虚线" data-value='dotted'>
+					<i class="fa fa-ellipsis-h"></i>
+				</li>
+			</ul> -->
+
+			<ul>
+				<!-- <li class='border-box'>
+					<i class="fa fa-flask"></i>
+				</li> -->
+				<li class='border-box tool-color tool-color-gray active' title="黑色" data-value='black'>
+					<i class="fa fa-pencil-square"></i>
+				</li>
+				<li class='border-box tool-color tool-color-red' title='红色' data-value='red'>
+					<i class="fa fa-pencil-square"></i>
+				</li>
+				<li class='border-box tool-color tool-color-green' title='绿色' data-value='green'>
+					<i class="fa fa-pencil-square"></i>
+				</li>
+				<li class='border-box tool-size tool-size-small active' data-type='small' title='2px'>
+					<i class="fa fa-circle"></i>
+				</li>
+				<li class='border-box tool-size tool-size-big' data-type='big' title='4px'>
+					<i class="fa fa-circle"></i>
+				</li>
+			</ul>
+
+			<ul>
+				<li id='clearcanavs' class="border-box clearcanavs" data-value="1">
+					<i class="fa fa-times"></i>
+				</li>
+			</ul>
+
+			<ul id='p-page-wrap'>
+				<li id='addPage' class='border-box tool-page-active' title='增加页码'>
+					<i class="fa fa-plus"></i>
+					<span>1/1</span>
+				</li>
+				<li class="border-box turn-page active" data-value="1">1</li>
+			</ul>
+		</div>
+		<!-- //左边工具栏 end -->
+
+		<!-- //右边栏 -->
+		<div class="p-status-wrap border-box">
+			<!-- //对方video -->
+			<div class="p-video">
+				
+			</div>
+			<!-- //对方video end -->
+
+			<!-- //自己video -->
+			<div class="p-video">
+				
+			</div>
+			<!-- //自己video end -->
+
+			<!-- //题目信息 -->
+			<div id='p-question' class="p-question border-box">
+				<ul>
+					<li>
+						<img src="/images/q1.jpg" height='100%' alt="">
+					</li>
+					<li>
+						<img src="/images/pic3.jpg" height='100%' alt="">
+					</li>
+				</ul>
+				<i id='question-left' class="fa fa-chevron-left"></i>
+				<i id='question-right' class="fa fa-chevron-right"></i>
+			</div>
+			<!-- //题目信息 end -->
+
+			<!-- //操作 -->
+			<div class="p-control border-box fn-clear">
+				<a id='end-course-tutor' class='p-close-room end-course' href="#">结束上课</a>
+			</div>
+			<!-- //操作 end -->
+
+			<!-- //聊天框 -->
+			<div class="p-chat border-box">
+				<div class="p-chat-ctn border-box">
+					<div id='chat' class="p-chat-dl">
+						<!--<dl>
+							<dt>
+								<img src="/lib/images/pic2.jpg" alt="">
+								我是好学生
+							</dt>
+							<dd>你为什么不讲一道简单的题目呢，这样我就明白了啊，以后就拥有四家教了</dd>
+						</dl> -->
+					</div>
+					
+				</div>
+				<div class="p-chat-type fn-clear">
+					<div class="fn-left">
+						<input type="text" name='chat' placeholder='输入聊天内容'>
+					</div>
+					<div class="fn-right">
+						<button id='chatSubmit'>发送</button>
+					</div>
+				</div>
+			</div>
+			<!-- //聊天框 end -->
+
+		</div>
+		<!-- //右边栏 end -->
+	
+		<!-- //右边画板 -->
+		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1024px; height:576px'>
+			
+		</div>
+		<!-- //右边画板 end -->
+
+	</div>
+	<!-- //main end -->
+
+	<!-- //shadow -->
+	<div class="shadow fn-hide"></div>
+	<!-- //shadow end -->
+
+	<!-- //加载中 -->
+	<div class="loading fn-hide">
+		<i class="fa fa-spinner fa-spin"></i>
+		<p>音频加载中，时间可能有点长，请耐心等待...</p>
+	</div>
+	
+	<!-- //加载中 end -->
+
+	<!-- //结束上课弹出框 -->
+	<div id='p-end-course' class="pop fn-hide" data-role='tutor'>
+		<div class="pop-content">
+			<p>将要结束上课？</p>
+		</div>
+		<div class="pop-btn-wrap">
+			<a href="#" class='pop-btn pop-btn-submit'>确定</a>
+			<a href="#" class='pop-btn pop-btn-cancel'>取消</a>
+			<span class="errorMsg"></span>
+		</div>
+	</div>
+	<!-- //结束上课弹出框 end -->
+
+	<!-- //监听到对方已结束上课 -->
+	<div id='p-end-course-teacher' data-role='teacher' class="pop p-leave-course fn-hide">
+		<div class="pop-content">
+			<p>对方已经结束上课</p>
+		</div>
+		<div class="pop-btn-wrap">
+			<a href="#" class='pop-btn pop-btn-submit'>离开房间</a>
+		</div>
+	</div>
+	<!-- //监听到对方已结束上课 end -->
+
+	<!-- //对方断电重连中 -->
+	<div id='p-waiting-course' class="pop p-waiting-course fn-hide">
+		<div class="pop-content">
+			<p>对方突然断线，等待重连中...</p>
+			<p class='countdown'>
+				<strong>05:00</strong> 后彻底断开才可离开房间
+			</p>
+		</div>
+		<div class="pop-btn-wrap">
+			<a href="#" class='pop-btn pop-btn-submit disabled'>离开房间</a>
+		</div>
+	</div>
+	<!-- //对方断电重连中 end -->
+
+	<!-- //jquery 与配置js -->
+	<script src="/lib/js/common/config.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/user.js"></script>
+	<script>
+
+		/**
+		 * 拿到服务器数据
+		 */
+		user.roomID = "000";
+		user.answerID = "";
+		user.username = "name";
+		user.role = "student";
+
+	</script>
+	<script src="/lib/compontent/jquery/jquery.min.js"></script>
+	<script src="/lib/compontent/jquery-awesome-cursor/dist/jquery.awesome-cursor.min.js"></script>
+	<!-- //jquery 与配置js end -->
+	
+	<!-- //js模块 -->
+	<script src="/lib/js/classroom/log.js"></script>
+	<script src="/lib/js/classroom/chat.js"></script>
+	<script src="/lib/js/common/yousiTool.js"></script>
+	<script src="/lib/js/classroom/setQuestionSize.js"></script>
+	<script src="/lib/js/classroom/get_canvas_size.js"></script>
+	<script src="/lib/js/classroom/painter_init.js"></script>
+	<!-- //js模块 end -->
+	
+	<!-- //画板sketchjs -->
+	<script type="text/javascript" src="/js/classroom/sketch/fabric.min.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/canvas.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/sketch.js"></script>
+	<!-- //画板sketchjs end -->
+
+
+	<!-- //链接服务器 -->
+	<script src="/js/classroom/pomepo/build/build.js"></script>
+	<script type="text/javascript">
+      require('boot');
+    </script>
+	<script type="text/javascript">
+		// 调试时候，初始化画板
+		// sketch.init('canvas-wrap', "active"); 
+		// 调试时候，初始化画板 end
+		// 
+		var pomelo = window.pomelo;
+    	var host = "139.196.24.119";
+    	var port = "3010";
+		pomelo.init({
+			host: host,
+			port: port,
+			log: true
+		}, function(data) {
+			//进入房间-push
+			pomelo.request('connector.roomHandler.enter', { uid: '12', role: 'teacher', roomID: '1000' }, function (data) {
+				console.log(data)
+				if (data.status == 'success') {
+					console.log('----------------', data)
+					//进入房间成功，在此处开始渲染页面
+					// startAudio();
+					/**
+					 * 问题尺寸初始化
+					 */
+					setQuestion.init();
+
+				} else {
+					// console.log('进入房间失败');
+				}
+			})
+			initPainter.setCanvasSize(1024, 576);
+			sketch.init('canvas-wrap', "active"); //skeetch 初始化	
+
+		});
+
+	</script>
+	<!-- //链接服务器 end -->
+
+	<!-- //主要js -->
+	<script src="/lib/js/classroom/painter.js"></script>
+	<!-- //主要js end -->
+
+</body>
+</html>

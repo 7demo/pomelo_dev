@@ -1,0 +1,25 @@
+{
+  "name": "online",
+  "version": "0.0.0",
+  "authors": [
+    "7demo <liyanan7demo@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#4.4.0",
+    "jquery": "1.9.1",
+    "jquery-awesome-cursor": "0.1.2",
+    "requirejs": "~2.1.20"
+  }
+}

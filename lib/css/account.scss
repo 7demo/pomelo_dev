@@ -1,0 +1,51 @@
+@charset 'utf-8';
+
+@import "/lib/css/normalize";
+@import "/lib/css/base";
+
+/*
+* 账户页
+ */
+.account-wrap{
+	width: 600px;
+	margin-top: 100px;
+	h1{
+		margin-bottom: 50px;
+		padding-bottom: 10px;
+		font-size: 26px;
+		color:$main-color;
+		border-bottom: $line-color solid 1px;
+	}
+	dl{
+		position: relative;
+		padding-left: 100px;
+		margin-bottom: 50px;
+		dt{
+			position:absolute;
+			left:0;
+			top:5px;
+		}
+		dd{
+			margin:0;
+			min-height:40px;
+			min-height: 40px;
+			input{
+				width:300px;
+				height:30px;
+			}
+		}
+		.text-right{
+			width:300px;
+			font-size: 12px;
+			a{
+				color:$main-color;
+				text-decoration: underline;
+			}
+		}
+		.verify_wrap{
+			input{
+				width:190px;
+			}
+		}
+	}
+}
