@@ -1,0 +1,162 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/user.scss">
+<body>
+
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //main -->
+<div class="main m0a fn-clear">
+	
+	<!-- //侧边栏 -->
+	<aside class="left fn-left aside">
+		<link rel="import" href="/views/public/aside_teacher.html?__inline">
+	</aside>
+	<!-- //侧边栏 end -->
+
+	<!-- //内容区 -->
+	<div class="right fn-right">
+		
+		<!-- //基本资料 -->
+		<div class="usercenter usercenter-info border-box fn-clear">
+
+			<!-- //头像 -->
+			<div class="usercenter-photo m0a fn-clear">
+				<div class="fn-left">
+					<img src="<%-user.photo %>" width="150" height='150' alt="">
+				</div>
+				<div class="fn-right">
+					<h1><%-user.nickname %></h1>
+					<p><i class="fa fa-user-secret"></i>优思认证金牌教员</p>
+				</div>
+			</div>
+			<!-- //头像 end -->
+
+			<% if(type == 1){ %> 
+				<nav class="title fn-clear">
+					<a class='active' href="/user/tutorInfo/1">基本资料</a>
+					<a href="/web/user/tutorInfo/2">教学资料</a>
+				</nav>
+				<!-- //基本资料 -->
+				<div class="ctn border-box fn-clear">
+					<dl>
+						<dt>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</dt>
+						<dd><%-user.nickname %></dd>
+					</dl>
+					<dl>
+						<dt>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</dt>
+						<dd>女</dd>
+					</dl>
+					<dl>
+						<dt>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</dt>
+						<dd>本科</dd>
+					</dl>
+					<dl>
+						<dt>入学年级：</dt>
+						<dd>2009年</dd>
+					</dl>
+					<dl>
+						<dt>学校专业：</dt>
+						<dd>上海交通大学-药学院</dd>
+					</dl>
+				</div>
+				<!-- //基本资料 end -->
+			<% } %>
+			<% if (type == 2){ %> 
+				<nav class="title fn-clear">
+					<a href="/web/user/tutorInfo/1">基本资料</a>
+					<a class='active' href="/user/tutorInfo/2">教学资料</a>
+				</nav>
+				<!-- //教学资料 -->
+				<div id='teachInfo' class="ctn border-box fn-clear">
+					<dl>
+						<dt></dt>
+						<dd class='tips'></dd>
+					</dl>
+					<dl>
+						<dt>辅导年级：</dt>
+						<dd>
+							<input type="hidden" name='grade' value='<%-gradesCheck %>'>
+							<% if (grades.length){ %>
+								<% grades.forEach(function (grade) { %>
+									<% if (grade.checked == 'true') { %>
+										<span data-value='<%-grade.value %>' class='checked active'>
+											<i class="fa fa-check-square-o"></i>
+											<i class="fa fa-square-o"></i>
+											<%-grade.key %>
+										</span>
+									<% } else { %>
+										<span data-value='<%-grade.value %>' class='checked'>
+											<i class="fa fa-check-square-o"></i>
+											<i class="fa fa-square-o"></i>
+											<%-grade.key %>
+										</span>
+									<% } %>
+								<% }) %>
+							<% } %>
+								
+						</dd>
+					</dl>
+					<dl>
+						<dt>辅导科目：</dt>
+						<dd>
+							<input type="hidden" name='subject' value='<%-subjectsCheck %>'>
+							<% if (subjects.length){ %>
+								<% subjects.forEach(function (subject) { %>
+									<% if (subject.checked == 'true') { %>
+										<span data-value='<%-subject.value %>' class='checked active'>
+											<i class="fa fa-check-square-o"></i>
+											<i class="fa fa-square-o"></i>
+											<%-subject.key %>
+										</span>
+									<% } else { %>
+										<span data-value='<%-subject.value %>' class='checked'>
+											<i class="fa fa-check-square-o"></i>
+											<i class="fa fa-square-o"></i>
+											<%-subject.key %>
+										</span>
+									<% } %>
+								<% }) %>
+							<% } %>
+						</dd>
+					</dl>
+					<dl></dl>
+					<dl>
+						<dt></dt>
+						<dd>
+							<button class='btn btn-main submit'>确认</button>
+							<span class="errorMsg"></span>
+							<span class="successMsg"></span>
+						</dd>
+					</dl>
+				</div>
+				<!-- //教学资料 end -->
+			<% } %>
+
+		</div>
+		<!-- //基本资料 -->
+
+		
+	</div>
+	<!-- //内容区 end -->
+
+</div>
+<!-- //main end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
+<script src='/lib/compontent/requirejs/require.js'></script>
+<script>
+	require(['/lib/js/userTutor/main', '/lib/js/common/common'], function (tutor, common) {
+		//教员js
+		tutor.init();
+		//通用js
+		common.init();
+	})
+</script>
+</body>
+</html>

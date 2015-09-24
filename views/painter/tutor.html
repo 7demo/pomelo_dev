@@ -15,13 +15,13 @@
 	<!-- //header -->
 	<div class="p-header border-box fn-clear">
 		<div class="fn-left">
-			<h1 id='roomNumber'>000号房间</h1>
+			<h1 id='roomNumber'><%-roomID %>号房间</h1>
 		</div>
 		<div class="fn-right">
 			<span>
-				<img src="/images/p-photo.jpg" alt="">
+				<img src="<%-user.photo %>" alt="">
 			</span>
-			<strong>SAMPAN</strong>
+			<strong><%-user.nickname %></strong>
 			<i class="fa fa-sort-desc"></i>
 		</div>
 	</div>
@@ -97,14 +97,17 @@
 		<!-- //右边栏 -->
 		<div class="p-status-wrap border-box">
 			<!-- //对方video -->
-			<div class="p-video">
-				
+			<div id='other-video' class="p-video">
+
+				<!-- <div id="video">
+				<div id="agora_local" style="width:160px;height:120px"></div>
+				</div> -->
 			</div>
 			<!-- //对方video end -->
 
 			<!-- //自己video -->
-			<div class="p-video">
-				
+			<div id='my-video' class="p-video">
+				<img src="<%-user.photo %>" alt="">
 			</div>
 			<!-- //自己video end -->
 
@@ -112,10 +115,10 @@
 			<div id='p-question' class="p-question border-box">
 				<ul>
 					<li>
-						<img src="/images/q1.jpg" height='100%' alt="">
+						<img src="/lib/images/q1.jpg" height='100%' alt="">
 					</li>
 					<li>
-						<img src="/images/pic3.jpg" height='100%' alt="">
+						<img src="/lib/images/pic3.jpg" height='100%' alt="">
 					</li>
 				</ul>
 				<i id='question-left' class="fa fa-chevron-left"></i>
@@ -217,17 +220,20 @@
 	<!-- //对方断电重连中 end -->
 
 	<!-- //jquery 与配置js -->
-	<script src="/lib/js/common/config.js"></script>
-	<script type="text/javascript" src="/js/classroom/sketch/user.js"></script>
+	<script src="/lib/js/config.js"></script>
+	<script type="text/javascript" src="/lib/js/classroom/sketch/user.js"></script>
 	<script>
 
 		/**
 		 * 拿到服务器数据
 		 */
-		user.roomID = "000";
-		user.answerID = "";
-		user.username = "name";
-		user.role = "student";
+		user.username = '<%-user.nickname %>';
+		user.role = "<%-user.role %>";
+		user.photo = '<%-user.photo %>';
+		var audiokey = {
+			value : config.AUDIO_KEY,
+			channel : '<%-roomID %>'
+		}, client, localStream;
 
 	</script>
 	<script src="/lib/compontent/jquery/jquery.min.js"></script>
@@ -237,57 +243,178 @@
 	<!-- //js模块 -->
 	<script src="/lib/js/classroom/log.js"></script>
 	<script src="/lib/js/classroom/chat.js"></script>
-	<script src="/lib/js/common/yousiTool.js"></script>
 	<script src="/lib/js/classroom/setQuestionSize.js"></script>
 	<script src="/lib/js/classroom/get_canvas_size.js"></script>
 	<script src="/lib/js/classroom/painter_init.js"></script>
 	<!-- //js模块 end -->
 	
 	<!-- //画板sketchjs -->
-	<script type="text/javascript" src="/js/classroom/sketch/fabric.min.js"></script>
-	<script type="text/javascript" src="/js/classroom/sketch/canvas.js"></script>
-	<script type="text/javascript" src="/js/classroom/sketch/sketch.js"></script>
+	<script type="text/javascript" src="/lib/js/classroom/sketch/fabric.min.js"></script>
+	<script type="text/javascript" src="/lib/js/classroom/sketch/canvas.js"></script>
+	<script type="text/javascript" src="/lib/js/classroom/sketch/sketch.js"></script>
 	<!-- //画板sketchjs end -->
 
+	<!-- //链接音频 -->
+	<!-- <script src="/js/classroom/audio/ffmpeg_asm.js"></script>
+	<script src="/public/js/classroom/audio/ffmpeg_asm.js"></script>
+	<script src="/lib/js/classroom/audio/recorder.js"></script>
+	<script src="/lib/js/classroom/audio/upload.js"></script>
+	<script src="/lib/js/classroom/audio/worker.js"></script> -->
+	<script src='/lib/js/classroom/agora/socket.io.js'></script>
+	<script src='/lib/js/classroom/agora/adapter.js'></script>
+	<script src='/lib/js/classroom/agora/AgoraSDK.js'></script>
+	<script>
+		/**
+		 * 创建播放器
+		 */
+		function bindPlayer(stream) {
+		    console.log("bindPlayer");
+		    stream.showing= false;
+		    stream.show = function (elementID, options) {
+		      	if (stream.hasVideo() || stream.hasScreen()) {
+		        	if (elementID !== undefined) {
+		          		stream.player = new Agora.VideoPlayer({
+		            		id: stream.getId(),
+		            		stream: stream,
+				            elementID: elementID,
+				            options: options
+				        });
+		          		stream.showing = true;
+		        	}
+		      	} else if (stream.hasAudio()) {
+			        stream.player = new Agora.AudioPlayer({
+			          	id: stream.getId(),
+			          	stream: stream,
+			          	elementID: elementID,
+			          	options: options
+			        });
+			        stream.showing = true;
+			    }
+			};
+		    stream.play = stream.show;
+		}
+
+		/**
+		 * 加入房间
+		 */
+		function join() {
+		    console.log('Joining channel ' + audiokey.value + ' : ' + audiokey.channel);
+		    client = Agora.Client({});
+		    client.init(audiokey.value, audiokey.channel, function (err) {
+		    	console.log("Connecting to vocs failed", err);
+		    });
+		    client.on('client-initialized', function (evt) {
+		      	var data = evt.attr;
+		      	console.log("Connecting vocs done", JSON.stringify(data['vos_list'][0]));
+		      	var _uid = data.uid;
+		      	console.log("Connecting to vos gateway");
+		      	client.connect(function (err) {
+		        	console.log("Join vos gateway failed", err);
+		      	});
+		      	client.on('client-connected', function (evt) {
+		        	console.log("Join vos gateway successfully");
+		        	console.log("Login to vos");
+		        	client.join(function (msg) {
+		          		console.log(msg);
+		        	});
+		        	client.on('join-success', function () {
+			          	console.log("Join vos successfully");
+			          	localStream = Agora.Stream({
+			            	streamID: _uid, 
+			            	audio: true, 
+			            	video: false,
+			            	data: false, 
+			            	screen: false
+			            });
+				        if (document.getElementById("video").checked) {
+				            localStream.setVideo("sif", [15, 60]);
+				        }
+			          	localStream.init(function (err) {
+			            	console.log("Media access failed", err);
+			          	});
+			          	localStream.on('access-accepted', function () {
+			            	bindPlayer(localStream);
+			            	console.log("Media access successfully: streamId = ", localStream.getId());
+			            	localStream.show('agora_local');
+			            	console.log("Publish local stream");
+			            	client.publish(localStream, function (err) {
+			              		console.log("Publish local stream error: " + err);
+			            	});
+			            	client.on('stream-published', function (evt) {
+			              		var stream = evt.stream;
+			              		console.log("Catch stream-published event");
+			            	});
+			          	});
+			        });
+			        client.on('stream-added', function (evt) {
+			          	console.log("Catch stream-added event");
+			          	var stream = evt.stream;
+			          	console.log("Subscribe ", stream);
+			          	bindPlayer(stream);
+			          	client.subscribe(stream, function (err) {
+			            	console.log("Subscribe failed", err);
+			          	});
+			        });
+			        client.on('stream-subscribed', function (evt) {
+			          	console.log("Catch stream-subscribed event");
+			          	var stream = evt.stream;
+			          	if ($('div#video #agora_remote'+stream.getId()).length === 0) {
+			            	$('div#video').append('<div id="agora_remote'+stream.getId()+'" style="width:320px;height:240px"></div>');
+			          	}
+			          	stream.show('agora_remote'+stream.getId());
+			        });
+		      	});
+		    });
+		}
+		function leave() {
+		    console.log("leave");
+		    client.leave();
+		}
+	</script>
+	<!-- //链接音频 end -->
 
 	<!-- //链接服务器 -->
-	<script src="/js/classroom/pomepo/build/build.js"></script>
-	<script type="text/javascript">
-      require('boot');
-    </script>
+	<script src="/lib/js/classroom/pomepo/build/build.js"></script>
 	<script type="text/javascript">
 		// 调试时候，初始化画板
 		// sketch.init('canvas-wrap', "active"); 
 		// 调试时候，初始化画板 end
-		// 
-		var pomelo = window.pomelo;
-    	var host = "139.196.24.119";
-    	var port = "3010";
-		pomelo.init({
-			host: host,
-			port: port,
-			log: true
-		}, function(data) {
-			//进入房间-push
-			pomelo.request('connector.roomHandler.enter', { uid: '12', role: 'teacher', roomID: '1000' }, function (data) {
-				console.log(data)
-				if (data.status == 'success') {
-					console.log('----------------', data)
-					//进入房间成功，在此处开始渲染页面
-					// startAudio();
-					/**
-					 * 问题尺寸初始化
-					 */
-					setQuestion.init();
+		require('boot');
+		var pomelo = window.pomelo,
+			roomErrorDesc = '<%-desc %>',
+			host = '<%-roominfo.host %>',
+			port = '<%-roominfo.port %>',
+			roomID = '<%-roomID %>',
+    		uid = '<%-user.uid %>';
+    	if (roomErrorDesc) { //加入匹配错误
+    		alert(roomErrorDesc + ', 请重新匹配');
+    	} else {
+    		pomelo.init({
+				host: host,
+				port: port,
+				log: true
+			}, function(data) {
+				//进入房间-push
+				pomelo.request('connector.roomHandler.enter', { uid: uid, role: 'teacher', roomID: roomID }, function (data) {
+					console.log(data, '进入房间')
+					if (data.code  == 200) {
+						join();
+						/**
+						 * 问题尺寸初始化
+						 */
+						$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
+						setQuestion.init();
+					} else {
+						// alert();
+					}
+				});
 
-				} else {
-					// console.log('进入房间失败');
-				}
-			})
-			initPainter.setCanvasSize(1024, 576);
-			sketch.init('canvas-wrap', "active"); //skeetch 初始化	
+				initPainter.setCanvasSize(1024, 576);
+				sketch.init('canvas-wrap', "active"); //skeetch 初始化	
 
-		});
+			});
+    	}
+    	
 
 	</script>
 	<!-- //链接服务器 end -->

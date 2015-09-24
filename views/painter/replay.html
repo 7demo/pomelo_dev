@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>这是画板</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name='renderer' content="webkit">
+	<meta name="360-site-verification" content="7175bd50683ee48de9180cd00b6e95fd">
+	<link rel="stylesheet" href="/lib/compontent/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/lib/css/common.scss">
+	<link rel="stylesheet" href="/lib/css/painter.scss">
+</head>
+<body class='border-box p-body'>
+	
+	<!-- //header -->
+	<div class="p-header border-box fn-clear">
+		<div class="fn-left">
+			<h1 id='roomNumber'>题目编号：</h1>
+		</div>
+		<div class="fn-right">
+			<span>
+				<img src="/lib/images/p-photo.jpg" alt="">
+			</span>
+			<strong></strong>
+			<i class="fa fa-sort-desc"></i>
+		</div>
+	</div>
+	<!-- //header end -->
+
+	<!-- //main -->
+	<div class="p-main fn-clear border-box">
+
+		<!-- //右边栏 -->
+		<div class="p-status-wrap border-box">
+			
+			<!-- //倒计时 -->
+			<div id="playTime" class='playTime'>
+				00:00
+			</div>
+			<!-- //倒计时 end -->
+
+			<!-- //时间进度条 -->
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+			  	</div>
+			</div>
+			<!-- //时间进度条 end -->
+			
+			<!-- //题目信息 -->
+			<div id='p-question' class="p-question border-box">
+				<ul>
+					<li>
+						<img src="/lib/images/q1.jpg" height='100%' alt="">
+					</li>
+					<li>
+						<img src="/lib/images/pic3.jpg" height='100%' alt="">
+					</li>
+				</ul>
+				<i id='question-left' class="fa fa-chevron-left"></i>
+				<i id='question-right' class="fa fa-chevron-right"></i>
+			</div>
+			<!-- //题目信息 end -->
+
+
+		</div>
+		<!-- //右边栏 end -->
+	
+		<!-- //右边画板 -->
+		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1024px; height:576px;'>
+			<!-- <canvas id='canvas' class='canvas'></canvas> -->
+		</div>
+		<!-- //右边画板 end -->
+
+	</div>
+	<!-- //main end -->
+
+	<!-- //shadow -->
+	<div class="shadow"></div>
+	<!-- //shadow end -->
+
+	<!-- //加载中 -->
+	<div class="loading">
+		<i class="fa fa-spinner fa-spin"></i>
+		<p>音频加载中，时间可能有点长，请耐心等待...</p>
+	</div>
+	
+	<!-- //加载中 end -->
+
+
+	<!-- //jquery 与配置js -->
+	<script src="/lib/js/config.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/user.js"></script>
+	
+	<script src="/lib/compontent/jquery/jquery.min.js"></script>
+	<!-- //jquery 与配置js end -->
+
+	<!-- //js模块 -->
+	<script src="/lib/js/classroom/log.js"></script>
+	<script src="/lib/js/classroom/chat.js"></script>
+	<script src="/lib/js/classroom/setQuestionSize.js"></script>
+	<script src="/lib/js/classroom/painter_init.js"></script>
+	<!-- //js模块 end -->
+
+	
+	<!-- //画板sketchjs -->
+	<script type="text/javascript" src="/js/classroom/sketch/fabric.min.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/soundmanager2.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/canvas.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/sketch.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/replay.js"></script>
+	<script type="text/javascript" src="/js/classroom/sketch/audio.js"></script>
+	<!-- //画板sketchjs end -->
+
+	<!-- //重绘 -->
+	<script type="text/javascript">
+	  	user.answerID = '111';
+		sketch.init('canvas-wrap','passive');
+		replay.start();
+	</script>
+	<!-- //重绘 end -->
+
+
+
+</body>
+</html>

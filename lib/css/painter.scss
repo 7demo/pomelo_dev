@@ -184,10 +184,16 @@ html,body{
 	border-left:$p-line solid 1px;
 	z-index: 50;
 	.p-video{
-		width:240px;
-		height:150px;
+		width:220px;
+		height:130px;
 		margin-bottom: 10px;
+		padding:10px;
+		text-align: center;
 		background:url('/lib/images/canvas_wrap_bg.jpg') repeat;
+		img{
+			max-height: 100%;
+			max-width: 100%;
+		}
 	}
 	.p-question{
 		position:relative;

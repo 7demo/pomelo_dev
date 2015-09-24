@@ -20,6 +20,7 @@
     "font-awesome": "fontawesome#4.4.0",
     "jquery": "1.9.1",
     "jquery-awesome-cursor": "0.1.2",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "bootstrap":"3.3.5"
   }
 }

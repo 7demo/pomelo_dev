@@ -9,47 +9,57 @@
 <!-- //导航 end -->
 
 <!-- //账号框 -->
-<div class="account-wrap m0a">
+<div  class="account-wrap m0a">
 	<h1>登录</h1>
-	<form action="/account/tutorLogin" method='POST'>
-		<dl>
-			<dt>手机号码：</dt>
-			<dd>
-				<input type="text" class='input' name='username' required='required'>
-				<span class="errorMsg">密码不能为空</span>
-			</dd>
-		</dl>
-		<dl>
-			<dt>登录密码：</dt>
-			<dd class='mul-input'>
-				<input type="password" class='input pwd' name='password' required='required'>
-				
-				<i class="fa fa-eye fn-hide"></i>
-				<i class="fa fa-eye-slash"></i>
-				<span class="errorMsg"></span>
-			</dd>
-		</dl>
-		<dl>
-			<dt></dt>
-			<dd class='text-right'>
-				<a href="#">没有账号，去注册</a>
-			</dd>
-		</dl>
-		<dl>
-			<dt></dt>
-			<dd>
-				<button class='btn btn-main'>登录</button>
-				<span class="errorMsg">这是错误信息</span>
-				<span class="successMsg">这是成功信息</span>
-			</dd>
-		</dl>
-	</form>
+		<form id='tutorLogin' action="">
+			<dl>
+				<dt>手机号码：</dt>
+				<dd>
+					<input type="text" class='input' name='phone' required='required' value='13941707965'>
+					<span class="errorMsg"></span>
+				</dd>
+			</dl>
+			<dl>
+				<dt>登录密码：</dt>
+				<dd class='mul-input'>
+					<input type="password" class='input pwd' name='password' required='required' value="2848047">
+					<input type="text" class='input pwd fn-hide' name='passwordTxt' value="2848047">
+					<i class="fa fa-eye fn-hide"></i>
+					<i class="fa fa-eye-slash"></i>
+					<span class="errorMsg"></span>
+				</dd>
+			</dl>
+			<dl>
+				<dt></dt>
+				<dd class='text-right'>
+					<a href="#">没有账号，去注册</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt></dt>
+				<dd>
+					<button class='btn btn-main submit'>登录</button>
+					<span class="errorMsg"></span>
+					<span class="successMsg"></span>
+				</dd>
+			</dl>
+		</form>
 </div>
 <!-- //账号框 end -->
 
 <!-- //footer -->
 <link rel="import" href="/views/public/foot.html?__inline">
 <!-- //footer -->
+
+<script src='/lib/compontent/requirejs/require.js'></script>
+<script>
+	require(['/lib/js/account/main', '/lib/js/common/common'], function (account, common) {
+		//账户js
+		account.init();
+		//通用js
+		common.init();
+	})
+</script>
 
 </body>
 </html>

@@ -1,0 +1,201 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/room.scss">
+<body>
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //main -->
+<div class="main m0a fn-clear">
+	
+	<!-- //房间列表 -->
+	<div class="right answer-room-list border-box fn-left">
+		
+		<ul class='fn-clear'>
+			
+			<% if (rooms.length) { %>
+				<% rooms.forEach(function (room) { %>
+					<li class='fn-left'>
+						<div class='answer-room-list-question fn-clear'>
+							<div>
+								<% if (room.teacher == user.uid) { %>
+									<a href="/web/classroom/tutor/<%- room.roomID %>">
+										<img src="/lib/images/pic3.jpg" alt="">
+										<div class='control'>
+											<i class="fa fa-play-circle-o fa-spin"></i>
+											<p>重新加入</p>
+										</div>
+									</a>
+								<% } else { %>
+									<a href="javascript:;">
+										<img src="/lib/images/pic3.jpg" alt="">
+									</a>
+								<% } %>
+							</div> 
+						</div>
+						<div class='answer-room-list-question-desc fn-clear'>
+							<span>一年级</span>
+							<span>物理</span>
+							<p class='fn-right'>张老师</p>
+						</div>
+					</li>
+				<% }) %>
+			<% } else { %>
+			教师还在路上，去<a href="/answer">答疑列表</a>看看吧
+			<% } %>
+		
+		</ul>
+
+		<!-- //翻页 -->
+		<!-- <div class="page">
+			<a href="#"><i class="fa fa-angle-left"></i></a>
+			<a href="#">1</a>
+			<span class='active'>2</span>
+			<a href="#">3</a>
+			<span>...</span>
+			<a href="#">10</a>
+			<a href="#">11</a>
+			<a href="#"><i class="fa fa-angle-right"></i></a>
+		</div> -->
+		<!-- //翻页 end -->
+
+	</div>
+	<!-- //房间列表 end -->
+	
+	<% if(user.nickname){ %>
+		<!-- //右侧操作 -->
+		<div class="left room-answer-control text-center border-box fn-right">
+			<button id='tutorStartQuneue' class='btn btn-main'>开始答疑</button>
+		</div>
+		<!-- //右侧操作 end -->
+	<% } else { %>
+		<!-- //右侧操作 -->
+		<div class="left room-answer-control border-box fn-right">
+			<p>若是学生，请<a href="/app">下载APP</a>进行答疑。</p>
+			<p>若是老师，请先去<a href="#">www.yousi.com</a>注册成为优思家教教员。</p>
+		</div>
+		<!-- //右侧操作 end -->
+	<% } %>
+
+</div>
+<!-- //main end -->
+
+<!-- //队列中 -->
+<div id='queue-tutor' class="room-queue pop fn-hide">
+	<div class="pop-content">
+		还有<span>5</span>个老师在排队，请耐心等待
+	</div>
+	<div class="pop-btn-wrap text-right">
+		<button class='btn btn-gray submit'>退出队列</button>
+	</div>
+</div>
+<!-- //队列中 end -->
+
+<!-- //链接服务器 -->
+<script src='/lib/js/config.js'></script>
+<script src="/lib/js/classroom/pomepo/build/build.js"></script>
+<script src='/lib/compontent/jquery/jquery.min.js'></script>
+<script type="text/javascript">
+	require('boot');
+	var pomelo = window.pomelo,
+		pomeloFlag = false, // 是否初始化过
+		flag = false, //是否进入房间 关系到关闭页面嗯的错误提示
+		nickname = '<%-user.nickname %>',
+		uid = '<%-user.uid %>'; //教师uid
+
+	$('#tutorStartQuneue').click(function () { 
+
+		if (!pomeloFlag) { //没有初始化过
+			pomelo.init({
+				host: config.PEMELO_HOST,
+				port: config.PEMELO_PORT,
+				log: true
+			}, function(data) {
+				pomeloFlag = true;
+				enterQueueFunc();
+			});
+		} else {
+			enterQueueFunc();
+		}
+
+	});
+	
+	/**
+	 * 进入队列
+	 */
+	var enterQueueFunc = function () {
+		pomelo.request('gate.queueHandler.enter', { uid: uid, role: 'teacher'}, function (data) {
+			//进入队列
+			console.log('gate.queueHandler.enter', data);
+			if (data.code == 200) {
+				flag = true;
+				$('#queue-tutor, .shadow').removeClass('fn-hide');
+			} else {
+				alert(data.desc);
+			}
+		})
+	}
+
+
+	/**
+	 * 退出队列
+	 */
+	$('#queue-tutor .submit').click(function () {
+		pomelo.request('gate.queueHandler.leave', {
+				uid: uid, 
+				role: 'teacher'
+			}, function (data) {
+				console.log('gate.queueHandler.leave', data);
+				if (data.code == 200) {
+					flag = false;
+					$('#queue-tutor, .shadow').addClass('fn-hide');
+				} else {
+					alert(data.desc);
+				}
+			}
+		)
+	});
+	
+	/**
+	 * 匹配成功
+	 */
+	pomelo.on('answer.match', function(data){
+		flag = false;
+		setTimeout(function () {
+			location.href = '/web/classroom/tutor/' + data.data.roomID;
+		}, 10);
+	});
+
+	/**
+	 * 队列信息
+	 */
+	pomelo.on('answer.queue_info_push', function(data){
+		console.log(data);
+		$('#queue-tutor .pop-content span').text(data.teahcerNumber);
+	});
+
+	/**
+	 * 监听pomelo关闭
+	 */
+	pomelo.on('close', function(data){
+		console.log('pomelo断开链接', data);
+		pomeloFlag = false;
+	});
+	
+	/**
+	 * 监听浏览器关闭事件
+	 */
+	window.onbeforeunload = function () {
+		if (flag) {
+			return '请正常退出队列后再离开页面';
+		}
+	}
+</script>
+<!-- //链接服务器 end -->
+
+
+
+</body>
+</html>

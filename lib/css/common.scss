@@ -205,9 +205,18 @@ body{
 	.fn-right{
 		font-size: 14px;
 		a{
+			display:inline-block;
+			padding:0 5px;
+			line-height: 20px;
 			margin-left: 20px;
+			border-radius: 3px;
 			&:hover{
 				color:$main-color;
+			}
+			&.active{
+				background:$main-color;
+				color:#fff;
+
 			}
 		}
 	}

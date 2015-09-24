@@ -1,0 +1,103 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/answer.scss">
+<body>
+
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //main -->
+<div class="main m0a fn-clear">
+
+	<!-- //答疑记录 -->
+	<div class="usercenter border-box fn-clear">
+		<div class="ctn border-box answer-list fn-clear">
+			
+			<!-- //答疑记录 -->
+			<ul>
+				<% if (answers.length) { %>
+					<% answers.forEach(function (answer) { %>
+						<li class='fn-clear'>
+							<div class="fn-left">
+								<% if (answer.savingStatus == "success") { %>
+									<a href="/web/replay?id='<%-answer.answerID %>'">
+										<% if (answer.question) { %>
+											<img src="<%-answer.question.imgUrl %>" alt="">
+										<% } else { %>
+											<img src="/lib/images/pic3.jpg" alt="">
+										<% } %>
+									</a>
+								<% } else { %>
+									<a href="/web/replay?id='<%-answer.answerID %>'">
+										<% if (answer.question) { %>
+											<img src="<%-answer.question.imgUrl %>" alt="">
+											<i class="fa fa-refresh fa-spin"></i>
+											<p>保存中，请稍后刷新</p>
+										<% } else { %>
+											<img src="/lib/images/pic3.jpg" alt="">
+											<i class="fa fa-refresh fa-spin"></i>
+											<p>保存中，请稍后刷新</p>
+										<% } %>
+									</a>
+								<% } %>
+							</div>
+							<div class="fn-right">
+								<h3>
+									<% if (answer.question) { %>
+										<strong><%-answer.teacher %>讲给<%-answer.student %>的<%-answer.question.subject %>课</strong>
+									<% } else { %>
+										<strong><%-answer.teacher %>讲给<%-answer.student %>的课</strong>
+									<% } %>
+									<span><%-answer.created %></span>
+								</h3>
+								<% if (answer.evaluate) { %>
+									<p>
+										<% for (var i = 0; i < 5; i++) { %>
+											<% if (i < answer.evaluate.score) { %>
+												<i class="fa fa-star"></i>
+											<% } else { %>
+												<i class="fa fa-star-o"></i>
+											<% } %>
+										<% } %>
+									</p>
+									<div class="usercenter-answer-eva">
+										<%-answer.evaluate.comment %>
+									</div>
+								<% } %>
+							</div>
+						</li>
+					<% }) %>
+				<% } %>
+			</ul>
+			<!-- //答疑记录 end -->
+			
+			<!-- //翻页 -->
+			<div class="page">
+				<!-- <a href="#"><i class="fa fa-angle-left"></i></a>
+				<a href="#">1</a>
+				<span class='active'>2</span>
+				<a href="#">3</a>
+				<span>...</span>
+				<a href="#">10</a>
+				<a href="#">11</a>
+				<a href="#"><i class="fa fa-angle-right"></i></a> -->
+				<a href="/web/answer/<%=pre %>"><i class="fa fa-angle-left"></i></a>
+				<a href="/web/answer/<%=next %>"><i class="fa fa-angle-right"></i></a>
+				<span>共<%=total %>条</span>
+			</div>
+			<!-- //翻页 end -->
+		</div>
+	</div>
+	<!-- //上课记录 -->
+
+</div>
+<!-- //main end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
+
+</body>
+</html>

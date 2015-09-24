@@ -1,30 +1,51 @@
 <!-- //教师个人中心列表 -->
 <div class='center-teacher-nav border-box fn-clear'>
 	<ul>
-		<li class='border-box active'>
-			<a href="#">
-				<i class="fa fa-meh-o"></i>
-				基本资料
-			</a>
-		</li>
+		<% if (sidebar == 'tutorInfo') { %>
+			<li class='border-box active'>
+				<a href="/web/user/tutorInfo/1">
+					<i class="fa fa-meh-o"></i>
+					基本资料
+				</a>
+			</li>
+		<% } else { %>
+			<li class='border-box'>
+				<a href="/web/user/tutorInfo/1">
+					<i class="fa fa-meh-o"></i>
+					基本资料
+				</a>
+			</li>
+		<% } %>
+		<% if (sidebar == 'answer') { %>
+			<li class='border-box active'>
+				<a href="/web/user/tutorAnswer">
+					<i class="fa fa-list-alt"></i>
+					上课记录
+				</a>
+			</li>
+		<% } else { %>
+			<li class='border-box'>
+				<a href="/web/user/tutorAnswer">
+					<i class="fa fa-list-alt"></i>
+					上课记录
+				</a>
+			</li>
+		<% } %>
 		<li class='border-box'>
-			<a href="#">
-				<i class="fa fa-list-alt"></i>
-				上课记录
-			</a>
-		</li>
-		<li class='border-box'>
-			<a href="/answer">
+			<a href="/web/room">
 				<i class="fa fa-paper-plane-o"></i>
 				开始答疑
 			</a>
 		</li>
 		<li class='border-box'>
-			<a href="/account/tutorLogout">
+			<a href="/web/account/tutorLogout">
 				<i class="fa fa-power-off"></i>
 				退出登录
 			</a>
 		</li>
 	</ul>
 </div>
+<script>
+	var nav = '<%-nav %>'
+</script>
 <!-- //教师个人中心列表 end -->

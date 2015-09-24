@@ -104,10 +104,10 @@
 	</div>
 	<!-- //房间列表 end -->
 	
-	<% if(user.username){ %>
+	<% if(user.nickname){ %>
 		<!-- //右侧操作 -->
 		<div class="left room-answer-control text-center border-box fn-right">
-			<button class='btn btn-main'>开始答疑</button>
+			<button id='tutorStartQuneue' class='btn btn-main'>开始答疑</button>
 		</div>
 		<!-- //右侧操作 end -->
 	<% } else { %>
@@ -123,7 +123,7 @@
 <!-- //main end -->
 
 <!-- //队列中 -->
-<div class="room-queue pop">
+<div id='queue-tutor' class="room-queue pop fn-hide">
 	<div class="pop-content">
 		还有<span>5</span>个老师在排队，请耐心等待
 	</div>
@@ -132,6 +132,41 @@
 	</div>
 </div>
 <!-- //队列中 end -->
+
+<!-- //链接服务器 -->
+<script src='/js/config.js'></script>
+<script src="/js/classroom/pomepo/build/build.js"></script>
+<script src='/lib/compontent/jquery/jquery.min.js'></script>
+<script type="text/javascript">
+	require('boot');
+	var pomelo = window.pomelo,
+		nickname = '<%-user.nickname %>',
+		uid = '<%-user.uid %>'; //教师uid
+	$('#tutorStartQuneue').click(function () {
+		pomelo.init({
+			host: config.PEMELO_HOST,
+			port: config.PEMELO_PORT,
+			log: true
+		}, function(data) {
+			pomelo.request('gate.queueHandler.enter', { uid: uid, role: 'teacher'}, function (data) {
+				console.log(data);
+				//进入队列
+				$('#queue-tutor, .shadow').removeClass('fn-hide');
+				
+			})
+			pomelo.on('answer.match', function(data){
+				console.log(data);
+				location.href = '/web/classroom/tutor/' + data.data.roomID
+			});
+			pomelo.on('answer.queue_info_push', function(data){
+				console.log(data);
+			});
+		});
+	});
+</script>
+<!-- //链接服务器 end -->
+
+
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 	<div class="nav-inner m0a fn-clear">
 		<!-- //logo -->
 		<div class="logo fn-left">
-			<a href="/">优思答疑</a>
+			<a href="/web/">优思答疑</a>
 		</div>
 		<!-- //logo end -->
 		
@@ -14,12 +14,38 @@
 
 		<!-- //登录 -->
 		<div class="fn-right">
-			<a href="/answer">房间列表</a>
-			<a href="/app">下载APP</a>
-			<% if(user.username){ %>
-			<a href="/user/tutor"><%-user.username %></a>
+
+			<% if (nav == 'room') { %>
+				<a href="/web/room" class='active'>房间列表</a>
 			<% } else { %>
-			<a href="/account/tutorLogin">教师入口</a>
+				<a href="/web/room">房间列表</a>
+			<% } %>
+			
+			<% if (nav == 'answer') { %>
+				<a href="/web/answer" class='active'>答疑列表</a>
+			<% } else { %>
+				<a href="/web/answer">答疑列表</a>
+			<% } %>
+
+			<% if (nav == 'app') { %>
+				<a href="/web/app" class='active'>下载APP</a>
+			<% } else { %>
+				<a href="/web/app">下载APP</a>
+			<% } %>
+
+			<% if(user.nickname){ %>
+				<% if (nav == 'info') { %>
+					<a href="/web/user/tutorInfo/1" class='active'><%-user.nickname %></a>
+				<% } else { %>
+					<a href="/web/user/tutorInfo/1"><%-user.nickname %></a>
+				<% } %>
+				
+			<% } else { %>
+				<% if (nav == 'tutorLogin') { %>
+					<a href="/web/account/tutorLogin" class='active'>教师入口</a>
+				<% } else { %>
+					<a href="/web/account/tutorLogin">教师入口</a>
+				<% } %>
 			<% } %>
 			
 			<!--
@@ -38,7 +64,6 @@
 
 </nav>
 <!-- //导航 end -->
-
 <!-- //弹出框 -->
 <link rel="import" href="/views/public/pop.html?__inline">
 <!-- //弹出框 end -->
