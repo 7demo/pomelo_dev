@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>这是画板</title>
+	<title><%-roomID %>号房间</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name='renderer' content="webkit">
 	<meta name="360-site-verification" content="7175bd50683ee48de9180cd00b6e95fd">
@@ -170,11 +170,11 @@
 	<!-- //main end -->
 
 	<!-- //shadow -->
-	<div class="shadow fn-hide"></div>
+	<div class="shadow"></div>
 	<!-- //shadow end -->
 
 	<!-- //加载中 -->
-	<div class="loading fn-hide">
+	<div class="loading">
 		<i class="fa fa-spinner fa-spin"></i>
 		<p>音频加载中，时间可能有点长，请耐心等待...</p>
 	</div>
@@ -255,120 +255,49 @@
 	<!-- //画板sketchjs end -->
 
 	<!-- //链接音频 -->
-	<!-- <script src="/js/classroom/audio/ffmpeg_asm.js"></script>
-	<script src="/public/js/classroom/audio/ffmpeg_asm.js"></script>
 	<script src="/lib/js/classroom/audio/recorder.js"></script>
-	<script src="/lib/js/classroom/audio/upload.js"></script>
-	<script src="/lib/js/classroom/audio/worker.js"></script> -->
-	<script src='/lib/js/classroom/agora/socket.io.js'></script>
-	<script src='/lib/js/classroom/agora/adapter.js'></script>
-	<script src='/lib/js/classroom/agora/AgoraSDK.js'></script>
 	<script>
-		/**
-		 * 创建播放器
-		 */
-		function bindPlayer(stream) {
-		    console.log("bindPlayer");
-		    stream.showing= false;
-		    stream.show = function (elementID, options) {
-		      	if (stream.hasVideo() || stream.hasScreen()) {
-		        	if (elementID !== undefined) {
-		          		stream.player = new Agora.VideoPlayer({
-		            		id: stream.getId(),
-		            		stream: stream,
-				            elementID: elementID,
-				            options: options
-				        });
-		          		stream.showing = true;
-		        	}
-		      	} else if (stream.hasAudio()) {
-			        stream.player = new Agora.AudioPlayer({
-			          	id: stream.getId(),
-			          	stream: stream,
-			          	elementID: elementID,
-			          	options: options
-			        });
-			        stream.showing = true;
-			    }
-			};
-		    stream.play = stream.show;
-		}
+		function startAudio() {
+			window.AudioContext = window.AudioContext || window.webkitAudioContext;
+			var audioContext = new AudioContext();
+			var audioInput;
 
-		/**
-		 * 加入房间
-		 */
-		function join() {
-		    console.log('Joining channel ' + audiokey.value + ' : ' + audiokey.channel);
-		    client = Agora.Client({});
-		    client.init(audiokey.value, audiokey.channel, function (err) {
-		    	console.log("Connecting to vocs failed", err);
-		    });
-		    client.on('client-initialized', function (evt) {
-		      	var data = evt.attr;
-		      	console.log("Connecting vocs done", JSON.stringify(data['vos_list'][0]));
-		      	var _uid = data.uid;
-		      	console.log("Connecting to vos gateway");
-		      	client.connect(function (err) {
-		        	console.log("Join vos gateway failed", err);
-		      	});
-		      	client.on('client-connected', function (evt) {
-		        	console.log("Join vos gateway successfully");
-		        	console.log("Login to vos");
-		        	client.join(function (msg) {
-		          		console.log(msg);
-		        	});
-		        	client.on('join-success', function () {
-			          	console.log("Join vos successfully");
-			          	localStream = Agora.Stream({
-			            	streamID: _uid, 
-			            	audio: true, 
-			            	video: false,
-			            	data: false, 
-			            	screen: false
-			            });
-				        if (document.getElementById("video").checked) {
-				            localStream.setVideo("sif", [15, 60]);
-				        }
-			          	localStream.init(function (err) {
-			            	console.log("Media access failed", err);
-			          	});
-			          	localStream.on('access-accepted', function () {
-			            	bindPlayer(localStream);
-			            	console.log("Media access successfully: streamId = ", localStream.getId());
-			            	localStream.show('agora_local');
-			            	console.log("Publish local stream");
-			            	client.publish(localStream, function (err) {
-			              		console.log("Publish local stream error: " + err);
-			            	});
-			            	client.on('stream-published', function (evt) {
-			              		var stream = evt.stream;
-			              		console.log("Catch stream-published event");
-			            	});
-			          	});
-			        });
-			        client.on('stream-added', function (evt) {
-			          	console.log("Catch stream-added event");
-			          	var stream = evt.stream;
-			          	console.log("Subscribe ", stream);
-			          	bindPlayer(stream);
-			          	client.subscribe(stream, function (err) {
-			            	console.log("Subscribe failed", err);
-			          	});
-			        });
-			        client.on('stream-subscribed', function (evt) {
-			          	console.log("Catch stream-subscribed event");
-			          	var stream = evt.stream;
-			          	if ($('div#video #agora_remote'+stream.getId()).length === 0) {
-			            	$('div#video').append('<div id="agora_remote'+stream.getId()+'" style="width:320px;height:240px"></div>');
-			          	}
-			          	stream.show('agora_remote'+stream.getId());
-			        });
-		      	});
-		    });
-		}
-		function leave() {
-		    console.log("leave");
-		    client.leave();
+			function gotStream(stream) {
+				console.log('链接音频中')
+				recorder.init(audioContext, stream, {
+					answerID: 'answerID',
+					uploadTokenUrl: 'http://meepo.cn/api/answer/uploadToken',
+					addAudioSliceUrl: 'http://meepo.cn//api/answer/addAudioSlice'
+				}, function(){
+					$('.shadow, .loading').addClass('fn-hide');
+					console.log('音频初始化成功')
+					pomelo.notify('connector.roomHandler.draw',
+						{
+							op: ['sy', [0,0]],
+							t: Date.now(),
+							roomID :user.roomID,
+							answerID:user.answerID
+						}
+					);
+					log('音频成功' ,'系统消息');
+				}, function () {
+					//音频上传完成，更改跳转状态
+					if ($('#p-end-course').attr('data-close') == 'false') {
+						$('#p-end-course').attr('data-close', 'true');
+					}
+				});
+
+				recorder.start();
+			}
+
+			navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+			navigator.getUserMedia(
+				{ "audio": true }, 
+				gotStream, 
+				function (e) {
+					if (e) alert('获取麦克风失败！');
+				}
+			);
 		}
 	</script>
 	<!-- //链接音频 end -->
@@ -395,10 +324,11 @@
 				log: true
 			}, function(data) {
 				//进入房间-push
+
 				pomelo.request('connector.roomHandler.enter', { uid: uid, role: 'teacher', roomID: roomID }, function (data) {
 					console.log(data, '进入房间')
 					if (data.code  == 200) {
-						join();
+						startAudio();
 						/**
 						 * 问题尺寸初始化
 						 */

@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>这是画板</title>
+	<title><%-answerID %>的回放</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name='renderer' content="webkit">
-	<meta name="360-site-verification" content="7175bd50683ee48de9180cd00b6e95fd">
 	<link rel="stylesheet" href="/lib/compontent/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/lib/css/common.scss">
 	<link rel="stylesheet" href="/lib/css/painter.scss">
@@ -15,11 +14,11 @@
 	<!-- //header -->
 	<div class="p-header border-box fn-clear">
 		<div class="fn-left">
-			<h1 id='roomNumber'>题目编号：</h1>
+			<h1 id='roomNumber'>题目编号：<%-answerID %></h1>
 		</div>
 		<div class="fn-right">
 			<span>
-				<img src="/lib/images/p-photo.jpg" alt="">
+				<img src="<%-user.photo %>" alt="">
 			</span>
 			<strong></strong>
 			<i class="fa fa-sort-desc"></i>
@@ -113,7 +112,8 @@
 
 	<!-- //重绘 -->
 	<script type="text/javascript">
-	  	user.answerID = '111';
+	  	user.answerID = '<%-answerID %>';
+	  	// user.answerID = '143fd525-f3ed-47ce-85cc-5c8b09f2c3fb';
 		sketch.init('canvas-wrap','passive');
 		replay.start();
 	</script>

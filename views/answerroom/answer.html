@@ -22,7 +22,7 @@
 						<li class='fn-clear'>
 							<div class="fn-left">
 								<% if (answer.savingStatus == "success") { %>
-									<a href="/web/replay?id='<%-answer.answerID %>'">
+									<a href="/web/replay/<%-answer.answerID %>">
 										<% if (answer.question) { %>
 											<img src="<%-answer.question.imgUrl %>" alt="">
 										<% } else { %>
@@ -30,7 +30,7 @@
 										<% } %>
 									</a>
 								<% } else { %>
-									<a href="/web/replay?id='<%-answer.answerID %>'">
+									<a href="/web/replay/<%-answer.answerID %>">
 										<% if (answer.question) { %>
 											<img src="<%-answer.question.imgUrl %>" alt="">
 											<i class="fa fa-refresh fa-spin"></i>
