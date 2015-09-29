@@ -228,6 +228,7 @@
 		 * 拿到服务器数据
 		 */
 		user.username = '<%-user.nickname %>';
+		user.answerID = '<%-answerID %>';
 		user.role = "<%-user.role %>";
 		user.photo = '<%-user.photo %>';
 		var audiokey = {
@@ -265,9 +266,9 @@
 			function gotStream(stream) {
 				console.log('链接音频中')
 				recorder.init(audioContext, stream, {
-					answerID: 'answerID',
-					uploadTokenUrl: 'http://meepo.cn/api/answer/uploadToken',
-					addAudioSliceUrl: 'http://meepo.cn//api/answer/addAudioSlice'
+					answerID: user.answerID,
+					uploadTokenUrl: config.API_URL + '/api/answer/uploadToken',
+					addAudioSliceUrl: config.API_URL + '/api/answer/addAudioSlice'
 				}, function(){
 					$('.shadow, .loading').addClass('fn-hide');
 					console.log('音频初始化成功')
@@ -335,7 +336,7 @@
 						$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
 						setQuestion.init();
 					} else {
-						// alert();
+						alert(data.desc);
 					}
 				});
 
