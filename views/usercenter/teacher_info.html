@@ -41,26 +41,26 @@
 					<a href="/web/user/tutorInfo/2">教学资料</a>
 				</nav>
 				<!-- //基本资料 -->
-				<div class="ctn border-box fn-clear">
+				<div id="tutorInfo" class="ctn border-box fn-clear">
 					<dl>
 						<dt>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</dt>
 						<dd><%-user.nickname %></dd>
 					</dl>
 					<dl>
 						<dt>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</dt>
-						<dd>女</dd>
+						<dd id="tutor_sex">女</dd>
 					</dl>
 					<dl>
 						<dt>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</dt>
-						<dd>本科</dd>
+						<dd id="tutor_education">本科</dd>
 					</dl>
 					<dl>
 						<dt>入学年级：</dt>
-						<dd>2009年</dd>
+						<dd id="tutor_grade">2009年</dd>
 					</dl>
 					<dl>
 						<dt>学校专业：</dt>
-						<dd>上海交通大学-药学院</dd>
+						<dd id="tutor_school">上海交通大学-药学院</dd>
 					</dl>
 				</div>
 				<!-- //基本资料 end -->
@@ -71,56 +71,24 @@
 					<a class='active' href="/user/tutorInfo/2">教学资料</a>
 				</nav>
 				<!-- //教学资料 -->
-				<div id='teachInfo' class="ctn border-box fn-clear">
+				<div id='tutorInfo' class="ctn border-box fn-clear">
 					<dl>
 						<dt></dt>
 						<dd class='tips'></dd>
 					</dl>
 					<dl>
 						<dt>辅导年级：</dt>
-						<dd>
-							<input type="hidden" name='grade' value='<%-gradesCheck %>'>
-							<% if (grades.length){ %>
-								<% grades.forEach(function (grade) { %>
-									<% if (grade.checked == 'true') { %>
-										<span data-value='<%-grade.value %>' class='checked active'>
-											<i class="fa fa-check-square-o"></i>
-											<i class="fa fa-square-o"></i>
-											<%-grade.key %>
-										</span>
-									<% } else { %>
-										<span data-value='<%-grade.value %>' class='checked'>
-											<i class="fa fa-check-square-o"></i>
-											<i class="fa fa-square-o"></i>
-											<%-grade.key %>
-										</span>
-									<% } %>
-								<% }) %>
-							<% } %>
+						<dd id='tutorGrade'>
+							<input type="hidden" name='grade' value=''>
+							
 								
 						</dd>
 					</dl>
 					<dl>
 						<dt>辅导科目：</dt>
-						<dd>
-							<input type="hidden" name='subject' value='<%-subjectsCheck %>'>
-							<% if (subjects.length){ %>
-								<% subjects.forEach(function (subject) { %>
-									<% if (subject.checked == 'true') { %>
-										<span data-value='<%-subject.value %>' class='checked active'>
-											<i class="fa fa-check-square-o"></i>
-											<i class="fa fa-square-o"></i>
-											<%-subject.key %>
-										</span>
-									<% } else { %>
-										<span data-value='<%-subject.value %>' class='checked'>
-											<i class="fa fa-check-square-o"></i>
-											<i class="fa fa-square-o"></i>
-											<%-subject.key %>
-										</span>
-									<% } %>
-								<% }) %>
-							<% } %>
+						<dd id='tutorCourse'>
+							<input type="hidden" name='subject' value=''>
+							
 						</dd>
 					</dl>
 					<dl></dl>

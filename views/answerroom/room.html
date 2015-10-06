@@ -13,38 +13,9 @@
 	<!-- //房间列表 -->
 	<div class="right answer-room-list border-box fn-left">
 		
-		<ul class='fn-clear'>
+		<ul id = 'roomList' class='fn-clear'>
 			
-			<% if (rooms.length) { %>
-				<% rooms.forEach(function (room) { %>
-					<li class='fn-left'>
-						<div class='answer-room-list-question fn-clear'>
-							<div>
-								<% if (room.teacher == user.uid) { %>
-									<a href="/web/classroom/tutor/<%- room.roomID %>">
-										<img src="/lib/images/pic3.jpg" alt="">
-										<div class='control'>
-											<i class="fa fa-play-circle-o fa-spin"></i>
-											<p>重新加入</p>
-										</div>
-									</a>
-								<% } else { %>
-									<a href="javascript:;">
-										<img src="/lib/images/pic3.jpg" alt="">
-									</a>
-								<% } %>
-							</div> 
-						</div>
-						<div class='answer-room-list-question-desc fn-clear'>
-							<span>一年级</span>
-							<span>物理</span>
-							<p class='fn-right'>张老师</p>
-						</div>
-					</li>
-				<% }) %>
-			<% } else { %>
-			教师还在路上，去<a href="/answer">答疑列表</a>看看吧
-			<% } %>
+			教师还在路上，去<a href="/web/answer">答疑列表</a>看看吧
 		
 		</ul>
 
@@ -64,7 +35,7 @@
 	</div>
 	<!-- //房间列表 end -->
 	
-	<% if(user.nickname){ %>
+	<% if(user.uid){ %>
 		<!-- //右侧操作 -->
 		<div class="left room-answer-control text-center border-box fn-right">
 			<button id='tutorStartQuneue' class='btn btn-main'>开始答疑</button>
@@ -92,6 +63,10 @@
 	</div>
 </div>
 <!-- //队列中 end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
 
 <!-- //链接服务器 -->
 <script src='/lib/js/config.js'></script>
@@ -194,7 +169,7 @@
 	}
 </script>
 <!-- //链接服务器 end -->
-
+<script src='/lib/js/room/main.js'></script>
 
 
 </body>

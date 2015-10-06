@@ -29,90 +29,13 @@
 			<div class="ctn border-box answer-list fn-clear">
 				
 				<!-- //答疑记录 -->
-				<ul>
-					<% if (answers.length) { %>
-						<% answers.forEach(function (answer) { %>
-							<li class='fn-clear'>
-								<div class="fn-left">
-									<% if (answer.savingStatus == "success") { %>
-										<a href="/web/replay/<%-answer.answerID %>">
-											<% if (answer.question) { %>
-												<img src="<%-answer.question.imgUrl %>" alt="">
-											<% } else { %>
-												<img src="/lib/images/pic3.jpg" alt="">
-											<% } %>
-										</a>
-									<% } else { %>
-										<a href="/web/replay/<%-answer.answerID %>">
-											<% if (answer.question) { %>
-												<img src="<%-answer.question.imgUrl %>" alt="">
-												<i class="fa fa-refresh fa-spin"></i>
-												<p>保存中，请稍后刷新</p>
-											<% } else { %>
-												<img src="/lib/images/pic3.jpg" alt="">
-												<i class="fa fa-refresh fa-spin"></i>
-												<p>保存中，请稍后刷新</p>
-											<% } %>
-										</a>
-									<% } %>
-								</div>
-								<div class="fn-right">
-									<h3>
-										<% if (answer.question) { %>
-											<strong><%-answer.teacher %>讲给<%-answer.student %>的<%-answer.question.subject %>课</strong>
-										<% } else { %>
-											<strong><%-answer.teacher %>讲给<%-answer.student %>的课</strong>
-										<% } %>
-										<span><%-answer.created %></span>
-									</h3>
-									<% if (answer.evaluate) { %>
-										<p>
-											<% for (var i = 0; i < 5; i++) { %>
-												<% if (i < answer.evaluate.score) { %>
-													<i class="fa fa-star"></i>
-												<% } else { %>
-													<i class="fa fa-star-o"></i>
-												<% } %>
-											<% } %>
-										</p>
-										<div class="usercenter-answer-eva">
-											<%-answer.evaluate.comment %>
-										</div>
-									<% } %>
-								</div>
-							</li>
-						<% }) %>
-					<% } %>
-					<!-- <li class='fn-clear'>
-						<div class="fn-left">
-							<a href="#">
-								<img src="/lib/images/pic3.jpg" alt="">
-								<i class="fa fa-play-circle-o"></i>
-							</a>
-						</div>
-						<div class="fn-right">
-							<h3>
-								<strong>这是物理题目</strong>
-								<span>2015-09-12 12:14:00</span>
-							</h3>
-							<p>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o"></i>
-								<i class="fa fa-star-o"></i>
-							</p>
-							<div class="usercenter-answer-eva">
-								这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！这是评论啊！
-							</div>
-						</div>
-					</li> -->
+				<ul id='answerList'>
 				</ul>
 				<!-- //答疑记录 end -->
 				
 				<!-- //翻页 -->
-				<div class="page">
-					<%-page %>
+				<div id="answerPage" class="page">
+					
 				</div>
 				<!-- //翻页 end -->
 			</div>
@@ -128,6 +51,16 @@
 <!-- //footer -->
 <link rel="import" href="/views/public/foot.html?__inline">
 <!-- //footer -->
+
+<script src='/lib/compontent/requirejs/require.js'></script>
+<script>
+	require(['/lib/js/userTutor/main', '/lib/js/common/common'], function (tutor, common) {
+		//教员js
+		tutor.init();
+		//通用js
+		common.init();
+	})
+</script>
 
 </body>
 </html>

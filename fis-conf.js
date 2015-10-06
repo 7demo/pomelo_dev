@@ -3,14 +3,14 @@ fis.hook('amd', {
     globalAsyncAsSync: true //异步加载的js将会同步
 });
 
-fis.media('localdebug').match('/lib/js/(**).js', {
+fis.media('debug').match('/lib/js/(**).js', {
     optimizer : fis.plugin('uglify-js'),
     useHash : false,
     release : '/public/js/$1',
     url : '/js/$1'
 });
 
-fis.media('relpush').match('/lib/js/(**).js', {
+fis.media('push').match('/lib/js/(**).js', {
     optimizer : fis.plugin('uglify-js'),
     useHash : false,
     release : '/public/js/$1',
@@ -36,7 +36,7 @@ fis.match('::package', {
  * 关于样式的合并，直接在开发的时候使用sass 的import 进行引用合并 ，不再后期进行暴力打包合并
  * 分通用功能common.sass与具体功能样式
  */
-fis.media('localdebug').match('/lib/css/(*).scss', {
+fis.media('debug').match('/lib/css/(*).scss', {
     rExt : '.css',
     parser : fis.plugin('node-sass'), //加载sass插件
     useSprite : true, //使用雪碧图
@@ -45,7 +45,7 @@ fis.media('localdebug').match('/lib/css/(*).scss', {
     release : '/public/css/$1',
     url : '/css/$1'
 })
-fis.media('relpush').match('/lib/css/(*).scss', {
+fis.media('push').match('/lib/css/(*).scss', {
     rExt : '.css',
     parser : fis.plugin('node-sass'), //加载sass插件
     useSprite : true, //使用雪碧图
@@ -59,11 +59,11 @@ fis.media('relpush').match('/lib/css/(*).scss', {
 /**
  * css
  */
-fis.media('localdebug').match('/lib/compontent/(**)', {
+fis.media('debug').match('/lib/compontent/(**)', {
     release : '/public/compontent/$1',
     url : '/compontent/$1'
 })
-fis.media('relpush').match('/lib/compontent/(**)', {
+fis.media('push').match('/lib/compontent/(**)', {
     release : '/public/compontent/$1',
     url : '/public/compontent/$1'
 })
@@ -73,12 +73,12 @@ fis.media('relpush').match('/lib/compontent/(**)', {
  * 图片的解析，发布
  * 包括css中压缩出现的图片
  */
-fis.media('localdebug').match(/^\/lib\/(css|images)\/(.*)\.(jpg|gig|jpeg|png)$/, {
+fis.media('debug').match(/^\/lib\/(css|images)\/(.*)\.(jpg|gig|jpeg|png)$/, {
     useHash : false,
     release: '/public/images/$2',
     url : '/images/$2'
 });
-fis.media('relpush').match(/^\/lib\/(css|images)\/(.*)\.(jpg|gig|jpeg|png)$/, {
+fis.media('push').match(/^\/lib\/(css|images)\/(.*)\.(jpg|gig|jpeg|png)$/, {
     useHash : false,
     release: '/public/images/$2',
     release: '/public/images/$2' 
@@ -89,7 +89,7 @@ fis.media('relpush').match(/^\/lib\/(css|images)\/(.*)\.(jpg|gig|jpeg|png)$/, {
 /**
  * 开发调试
  */
-fis.media('localdebug').match('*', {
+fis.media('debug').match('*', {
     useHash : false,
     optimizer : null,
     deploy : fis.plugin('local-deliver', {
@@ -97,11 +97,11 @@ fis.media('localdebug').match('*', {
     })
 })
 
-// fis.media('localdebug').match('/lib/js/classroom/audio/ffmpeg_asm.js', {
+// fis.media('debug').match('/lib/js/classroom/audio/ffmpeg_asm.js', {
 //     release : false
 // })
 
-// fis.media('relpush').match('/lib/js/classroom/audio/ffmpeg_asm.js', {
+// fis.media('push').match('/lib/js/classroom/audio/ffmpeg_asm.js', {
 //     release : false
 // })
 fis.set('project.ignore', ['/lib/js/classroom/audio/ffmpeg_asm.js']);
@@ -109,7 +109,7 @@ fis.set('project.ignore', ['/lib/js/classroom/audio/ffmpeg_asm.js']);
 /**
  * 发布调试
  */
-fis.media('relpush').match('*', {
+fis.media('push').match('*', {
     useHash : false,
     optimizer : null,
     deploay : fis.plugin('local-deliver', {

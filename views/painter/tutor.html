@@ -161,7 +161,7 @@
 		<!-- //右边栏 end -->
 	
 		<!-- //右边画板 -->
-		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1024px; height:576px'>
+		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1330px; height:728px'>
 			
 		</div>
 		<!-- //右边画板 end -->
@@ -228,7 +228,8 @@
 		 * 拿到服务器数据
 		 */
 		user.username = '<%-user.nickname %>';
-		user.answerID = '<%-answerID %>';
+		user.answerID = undefined;
+		user.roomID = '<%-roomID %>';
 		user.role = "<%-user.role %>";
 		user.photo = '<%-user.photo %>';
 		var audiokey = {
@@ -311,41 +312,60 @@
 		// 调试时候，初始化画板 end
 		require('boot');
 		var pomelo = window.pomelo,
-			roomErrorDesc = '<%-desc %>',
-			host = '<%-roominfo.host %>',
-			port = '<%-roominfo.port %>',
+			host = undefined,
+			port = undefined,
 			roomID = '<%-roomID %>',
     		uid = '<%-user.uid %>';
-    	if (roomErrorDesc) { //加入匹配错误
-    		alert(roomErrorDesc + ', 请重新匹配');
-    	} else {
-    		pomelo.init({
-				host: host,
-				port: port,
-				log: true
-			}, function(data) {
-				//进入房间-push
+    	console.log('请求前')
+    	$.ajax({
+    		type : 'GET',
+    		url : config.API_URL + '/api/room/conf?id=' + roomID,
+    		success : function (data) {
+    			console.log('data', data)
+    			if (!!data && typeof data == 'string') {
+    				data = JSON.parse(data);
+    			}
+    			if (data.code == 200) {
 
-				pomelo.request('connector.roomHandler.enter', { uid: uid, role: 'teacher', roomID: roomID }, function (data) {
-					console.log(data, '进入房间')
-					if (data.code  == 200) {
-						startAudio();
-						/**
-						 * 问题尺寸初始化
-						 */
-						$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
-						setQuestion.init();
-					} else {
-						alert(data.desc);
-					}
-				});
+    				host = data.data.host;
+    				port = data.data.port;
+    				user.answerID = data.data.answerID;
 
-				initPainter.setCanvasSize(1024, 576);
-				sketch.init('canvas-wrap', "active"); //skeetch 初始化	
+    				// 开始长连接匹配
+    				pomelo.init({
+						host: host,
+						port: port,
+						log: true
+					}, function(data) {
+						//进入房间-push
 
-			});
-    	}
-    	
+						pomelo.request('connector.roomHandler.enter', { uid: uid, role: 'teacher', roomID: roomID }, function (data) {
+							console.log(data, '进入房间')
+							if (data.code  == 200) {
+								startAudio();
+								/**
+								 * 问题尺寸初始化
+								 */
+								$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
+								setQuestion.init();
+							} else {
+								alert(data.desc);
+							}
+						});
+
+						initPainter.setCanvasSize(1330, 728);
+						sketch.init('canvas-wrap', "active"); //skeetch 初始化	
+
+					});
+
+    			} else {
+    				alert(data.desc + ', 请重新匹配');
+    			}
+    		},
+    		error : function () {
+
+    		}
+    	})
 
 	</script>
 	<!-- //链接服务器 end -->
