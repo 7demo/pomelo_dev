@@ -1,0 +1,367 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/room.scss">
+<body>
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //main -->
+<div class="main m0a fn-clear">
+	
+	<div class="select-answer-info">
+		<div class="select">
+			<input type="hidden" name='grade'>
+			<span>请选择年级</span>
+			<ul class='select-ctn'>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+			</ul>
+			<i class="fa fa-caret-down"></i>
+		</div>
+		<div class="select">
+			<input type="hidden" name='course'>
+			<span>请选择科目</span>
+			<ul class='select-ctn'>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+				<li data-value='1'>这是列表</li>
+			</ul>
+			<i class="fa fa-caret-down"></i>
+		</div>
+	</div>
+	
+	<div class="select-answer-pic border-box m0a">
+		<input type="file" name='upload'>
+		<input type="hidden" name='img'>
+		<div>
+			<img src="" alt="">
+		</div>
+		
+	</div>
+
+
+	<div class="select-answer-btn-wrap">
+		<button id='studentStartQuneue' class="btn btn-main">开始答疑</button>
+	</div>
+	
+</div>
+<!-- //main end -->
+
+<div class="shadow fn-hide"></div>
+
+<!-- //学生队列中 -->
+<div id='queue-student' class="room-queue pop fn-hide">
+	<div class="pop-content">
+		还有<span>5</span>个老师在排队，请耐心等待
+	</div>
+	<div class="pop-btn-wrap text-right">
+		<button class='btn btn-gray submit'>退出队列</button>
+	</div>
+</div>
+<!-- //学生队列中 end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
+
+<!-- //链接服务器 -->
+<script src='/lib/js/config.js'></script>
+<script src="/lib/js/classroom/pomepo/build/build.js"></script>
+<script src='/lib/compontent/jquery/jquery.min.js'></script>
+<script>
+	//下拉框显现
+	$(document).on('mouseenter', '.select', function () {
+		$(this).find('.select-ctn').show();
+	});
+
+	//下拉框隐藏
+	$(document).on('mouseleave', '.select', function () {
+		$(this).find('.select-ctn').hide();
+	});
+
+	//选择下拉框
+	$(document).on('click', '.select .select-ctn li', function () {
+		var _self = $(this),
+			_parent = _self.parents('.select-ctn');
+		setTimeout(function () {
+			_parent.siblings('input[type=hidden]').val(_self.attr('data-value'));
+			_parent.siblings('span').text(_self.text());
+			_parent.parent('.select').mouseleave();
+		}, 0);
+
+	});
+
+	/**
+	 * 上传过程中状态回复
+	 */
+	var resetStatus = function () {
+		$('#studentStartQuneue').removeClass('disabled').text('开始答疑');
+	};
+
+</script>
+
+<script>
+	/**
+	 * 拿到input的url
+	 */
+	var getObjectURL = function (file) {
+        var url = null;
+        if (window.createObjectURL != undefined) {
+            url = window.createObjectURL(file)
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file)
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file)
+        }
+        return url
+    };
+
+    /**
+     * 图片变动时预览
+     */
+    $('input[name=upload]').change(function () {
+    	var self = this,
+    		img = $(self).siblings('div').find('img');
+    	$('input[name=img]').val('');
+    	img.attr('src', getObjectURL(self.files[0]));
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+	require('boot');
+	var pomelo = window.pomelo,
+		pomeloFlag = false, // 是否初始化过
+		flag = false, //是否进入房间 关系到关闭页面嗯的错误提示
+		nickname = '<%-user.nickname %>',
+		uid = '<%-user.uid %>'; //教师uid
+
+	/**
+	 * 学生进入队列
+	 */
+	$('#studentStartQuneue').click(function () { 
+
+		var self = $(this),
+			btntxt = self.text();
+
+		if (self.hasClass('disabled')) return;
+
+		if (!$('input[name=upload]').val()) {
+			alert('没有上传题目');
+			return;
+		}
+
+		if (!$('input[name=grade]').val()) {
+			alert('没有选择年级');
+			return;
+		}
+
+		if (!$('input[name=course]').val()) {
+			alert('没有选择科目');
+			return;
+		}
+
+		self.addClass('disabled').text('进入中');
+
+		if (!pomeloFlag) { //没有初始化过
+			pomelo.init({
+				host: config.PEMELO_HOST,
+				port: config.PEMELO_PORT,
+				log: true
+			}, function(data) {
+				pomeloFlag = true;
+				console.log('第一次进')
+				isUploaded();
+			});
+		} else { //初始化过直接去判断是否进入队列
+			isUploaded();
+		}
+
+	});
+
+	/**
+	 * 判断是否上传过图片
+	 */
+	var isUploaded = function () {
+		if ($('input[name=img]').val()) { //判断是否已经上传过题目，有的话直接进入队列
+			console.log('上过图a , 直接进入');
+			enterQueueFunc();
+		} else { //否则上传图片 然后进入队列
+			console.log('没上过图');
+			getQiniuToken();
+		}
+	}
+
+	/**
+	 * 拿取七牛uploadtoken
+	 */
+	var getQiniuToken = function () {
+		$.ajax({
+			type : 'GET',
+			url : config.API_URL + '/api/answer/uploadToken',
+			success : function (data) {
+				if (data && typeof data == 'string') {
+					data = JSON.parse(data);
+				}
+				if (data.code == 200) {
+					uploadImgToQiniu(data.data.uptoken);
+				} else {
+					resetStatus();
+					alert('拿不到七牛上传uploadtoken')
+				}
+			},
+			error : function () {
+				resetStatus();
+				alert('拿七牛上传uploadtoken有问题')
+			}
+		})
+	}
+
+	/**
+	 * 拿到上传图片后缀格式
+	 */
+	var getImgType = function () {
+		var imgtype = $('input[name=upload]')[0].files[0].type;
+		if (imgtype == 'image/jpeg') {
+			return '.jpg'
+		} else if (imgtype == 'image/gif') {
+			return '.gif'
+		} else if (imgtype == 'image/png') {
+			return '.png'
+		} else {
+			return '.jpg'
+		}
+	}
+
+	/**
+	 * 上传图片到七牛
+	 */
+	var uploadImgToQiniu = function (token) {
+		
+		var formdata = new FormData(),
+			time = new Date(),
+			year = time.getFullYear(),
+			month = time.getMonth() + 1,
+			date = time.getDate(); 
+		var key = year + '-' + month + '-' + date + '-' + (new Date().getTime()) + getImgType();
+		console.log(formdata);
+		formdata.append('key', key);
+		formdata.append('token', token);
+		formdata.append('file', $('input[name=upload]')[0].files[0]);
+		$.ajax({
+			type : 'POST',
+			url : 'http://up.qiniu.com',
+			data : formdata,
+			processData : false,
+			contentType : false,
+			success : function (data) {
+				if (data && typeof data == 'string') {
+					data = JSON.parse(data);
+				}
+				$('input[name=img]').val(config.QINIU_UPLOAD_URL + data.key);
+				enterQueueFunc();
+			},
+			error : function () {
+				resetStatus();
+				alert('上传图片到七牛错误');
+			}
+		});
+
+	};
+
+	
+	/**
+	 * 进入队列
+	 */
+	var enterQueueFunc = function () {
+		pomelo.request('gate.queueHandler.enter', { 
+			uid: uid, 
+			role: 'student',
+			question : {
+				grade : $('input[name=grade]').val(),
+				course : $('input[name=course]').val(),
+				imgUrl : $('input[name=img]').val()
+			}
+		}, function (data) {
+			//进入队列
+			console.log('gate.queueHandler.enter', data);
+			if (data.code == 200) {
+				flag = true;
+				$('#queue-student, .shadow').removeClass('fn-hide');
+			} else {
+				resetStatus();
+				alert(data.desc);
+			}
+		})
+	}
+
+	/**
+	 * 退出队列
+	 */
+	$('#queue-student .submit').click(function () {
+		pomelo.request('gate.queueHandler.leave', {
+				uid: uid, 
+				role: 'student'
+			}, function (data) {
+				console.log('gate.queueHandler.leave', data);
+				if (data.code == 200) {
+					flag = false;
+					$('#queue-student, .shadow').addClass('fn-hide');
+					resetStatus();
+				} else {
+					alert(data.desc);
+				}
+			}
+		)
+	});
+	
+	/**
+	 * 匹配成功
+	 */
+	pomelo.on('answer.match', function(data){
+		flag = false;
+		setTimeout(function () {
+			location.href = '/web/classroom/student/' + data.data.roomID;
+		}, 10);
+	});
+
+	/**
+	 * 队列信息
+	 */
+	pomelo.on('answer.queue_info_push', function(data){
+		console.log(data);
+		$('#queue-student .pop-content span').text(data.teahcerNumber);
+	});
+
+	/**
+	 * 监听pomelo关闭
+	 */
+	pomelo.on('close', function(data){
+		console.log('pomelo断开链接', data);
+		pomeloFlag = false;
+	});
+	
+	/**
+	 * 监听浏览器关闭事件
+	 */
+	window.onbeforeunload = function () {
+		if (flag) {
+			return '请正常退出队列后再离开页面';
+		}
+	}
+</script>
+<!-- //链接服务器 end -->
+<script src='/lib/js/room/main.js'></script>
+
+
+</body>
+</html>

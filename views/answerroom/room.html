@@ -14,9 +14,9 @@
 	<div class="right answer-room-list border-box fn-left">
 		
 		<ul id = 'roomList' class='fn-clear'>
-			
-			教师还在路上，去<a href="/web/answer">答疑列表</a>看看吧
-		
+			<div class="placeholder">
+				<i class="fa fa-circle-o-notch fa-spin"></i>
+			</div>
 		</ul>
 
 		<!-- //翻页 -->
@@ -34,13 +34,14 @@
 
 	</div>
 	<!-- //房间列表 end -->
-	
+
 	<% if(user.uid){ %>
 		<!-- //右侧操作 -->
 		<div class="left room-answer-control text-center border-box fn-right">
 			<button id='tutorStartQuneue' class='btn btn-main'>开始答疑</button>
 		</div>
 		<!-- //右侧操作 end -->
+
 	<% } else { %>
 		<!-- //右侧操作 -->
 		<div class="left room-answer-control border-box fn-right">
@@ -53,7 +54,7 @@
 </div>
 <!-- //main end -->
 
-<!-- //队列中 -->
+<!-- //教师队列中 -->
 <div id='queue-tutor' class="room-queue pop fn-hide">
 	<div class="pop-content">
 		还有<span>5</span>个老师在排队，请耐心等待
@@ -62,7 +63,8 @@
 		<button class='btn btn-gray submit'>退出队列</button>
 	</div>
 </div>
-<!-- //队列中 end -->
+<!-- //教师队列中 end -->
+
 
 <!-- //footer -->
 <link rel="import" href="/views/public/foot.html?__inline">
@@ -80,6 +82,9 @@
 		nickname = '<%-user.nickname %>',
 		uid = '<%-user.uid %>'; //教师uid
 
+	/**
+	 * 教师直接进入队列
+	 */
 	$('#tutorStartQuneue').click(function () { 
 
 		if (!pomeloFlag) { //没有初始化过
@@ -95,6 +100,13 @@
 			enterQueueFunc();
 		}
 
+	});
+
+	/**
+	 * 学生开始答疑 弹出上传题目 与选择题目的框
+	 */
+	$('#studentStartQuneue').click(function () {
+		//todo
 	});
 	
 	/**
@@ -112,7 +124,6 @@
 			}
 		})
 	}
-
 
 	/**
 	 * 退出队列

@@ -30,70 +30,6 @@
 	<!-- //main -->
 	<div class="p-main fn-clear border-box">
 
-		<!-- //左边工具栏 -->
-		<div class="p-tool-wrap border-box">
-			<ul class='tool-type'>
-				<li id='pencil' class='border-box active' data-type='pencil' data-cursor='url(/img/sketch/line.cur) 0 16, default'  title="画笔">
-					<i class="fa fa-pencil"></i>
-					<span>2px</span>
-				</li>
-				<li id='line' class='border-box' data-type='line' data-cursor='url(/img/sketch/shape.cur) 0 16, default' title="直线">
-					<i class="fa fa-minus"></i>
-				</li>
-				<li id='eraser' class='border-box' data-type='earser' data-cursor='url(/img/sketch/eraser.cur), default;' title="橡皮擦">
-					<i class="fa fa-eraser"></i>
-				</li>
-				<li id='move' class='border-box' data-type='move' data-cursor='url(/img/sketch/move.cur), deault' title="移动">
-					<i class="fa fa-arrows"></i>
-				</li>
-			</ul>
-
-			<!-- <ul>
-				<li class='border-box tool-pencil-line active' title="实线" data-value='solid'>
-					<i class="fa fa-minus"></i>
-				</li>
-				<li class='border-box tool-pencil-line ' title="虚线" data-value='dotted'>
-					<i class="fa fa-ellipsis-h"></i>
-				</li>
-			</ul> -->
-
-			<ul>
-				<!-- <li class='border-box'>
-					<i class="fa fa-flask"></i>
-				</li> -->
-				<li class='border-box tool-color tool-color-gray active' title="黑色" data-value='black'>
-					<i class="fa fa-pencil-square"></i>
-				</li>
-				<li class='border-box tool-color tool-color-red' title='红色' data-value='red'>
-					<i class="fa fa-pencil-square"></i>
-				</li>
-				<li class='border-box tool-color tool-color-green' title='绿色' data-value='green'>
-					<i class="fa fa-pencil-square"></i>
-				</li>
-				<li class='border-box tool-size tool-size-small active' data-type='small' title='2px'>
-					<i class="fa fa-circle"></i>
-				</li>
-				<li class='border-box tool-size tool-size-big' data-type='big' title='4px'>
-					<i class="fa fa-circle"></i>
-				</li>
-			</ul>
-
-			<ul>
-				<li id='clearcanavs' class="border-box clearcanavs" data-value="1">
-					<i class="fa fa-times"></i>
-				</li>
-			</ul>
-
-			<ul id='p-page-wrap'>
-				<li id='addPage' class='border-box tool-page-active' title='增加页码'>
-					<i class="fa fa-plus"></i>
-					<span>1/1</span>
-				</li>
-				<li class="border-box turn-page active" data-value="1">1</li>
-			</ul>
-		</div>
-		<!-- //左边工具栏 end -->
-
 		<!-- //右边栏 -->
 		<div class="p-status-wrap border-box">
 			<!-- //对方video -->
@@ -232,6 +168,39 @@
 	</div>
 	<!-- //对方断电重连中 end -->
 
+	<!-- //评价 -->
+	<div id='p-evaluate' class="p-evaluate fn-clear fn-hide">
+		<h2>评价教师</h2>
+		<!-- <i class="fa fa-times close"></i> -->
+		<dl>
+			<dt>星级：</dt>
+			<dd id='p-evaluate-star' class='p-evaluate-star hover'>
+				<input type="hidden" name='evaluate' value='0'>
+				<i class="fa fa-star-o"></i>
+				<i class="fa fa-star-o"></i>
+				<i class="fa fa-star-o"></i>
+				<i class="fa fa-star-o"></i>
+				<i class="fa fa-star-o"></i>
+			</dd>
+		</dl>
+		<dl>
+			<dt>评价：</dt>
+			<dd>
+				<textarea name='evaluate-ctn'></textarea>
+			</dd>
+		</dl>
+		<dl>
+			<dt></dt>
+			<dd>
+				<a href="#" class='submit evaluate-btn'>提交评价</a>
+				<a href="#" class='cancel evaluate-btn'>狠心跳过评价</a>
+				<span class="errorMsg"></span>
+				<span class="successMsg"></span>
+			</dd>
+		</dl>
+	</div>
+	<!-- //评价 end -->
+
 	<!-- //jquery 与配置js -->
 	<script src="/lib/js/config.js"></script>
 	<script type="text/javascript" src="/lib/js/classroom/sketch/user.js"></script>
@@ -258,6 +227,7 @@
 	<script src="/lib/js/classroom/setQuestionSize.js"></script>
 	<script src="/lib/js/classroom/get_canvas_size.js"></script>
 	<script src="/lib/js/classroom/painter_init.js"></script>
+	<script src="lib/js/classroom/evaluate.js"></script>
 	<!-- //js模块 end -->
 	
 	<!-- //画板sketchjs -->
@@ -270,10 +240,9 @@
 	<script>
 		//检测加载腾讯sdk是否成功 以及 录音是否开始成功
 		var tencentsdkRecordCheck = function (data){
-			var tencentSdkCheck = external.StartQAVSdk(user.uid, "1234", user.roomID),
-				recordCheck = external.StartRecordAudio();
-			if (tencentSdkCheck && recordCheck) {
-				log('sdk和录音初始化成功', '系统消息');
+			var tencentSdkCheck = external.StartQAVSdk(user.uid, "1234", user.roomID);
+			if (tencentSdkCheck) {
+				log('sdk初始化成功', '系统消息');
 				/**
 				 * 问题尺寸初始化
 				 */
@@ -307,9 +276,6 @@
 	<!-- //链接服务器 -->
 	<script src="/lib/js/classroom/pomepo/build/build.js"></script>
 	<script type="text/javascript">
-		// 调试时候，初始化画板
-		// sketch.init('canvas-wrap', "active"); 
-		// 调试时候，初始化画板 end
 		require('boot');
 		var pomelo = window.pomelo,
 			host = undefined,
@@ -325,8 +291,8 @@
     				data = JSON.parse(data);
     			}
     			if (data.code == 200) {
-
     				host = data.data.host;
+    				
     				port = data.data.port;
     				user.answerID = data.data.answerID;
 
@@ -338,17 +304,40 @@
 					}, function(data) {
 						//进入房间-push
 
-						pomelo.request('connector.roomHandler.enter', { uid: uid, role: 'teacher', roomID: roomID }, function (data) {
+						pomelo.request('connector.roomHandler.enter', {
+							uid: uid,
+							role: 'student',
+							roomID: roomID 
+						}, function (data) {
 							console.log(data, '进入房间')
 							if (data.code  == 200) {
 								tencentsdkRecordCheck(data);
+								$('.shadow, .loading').addClass('fn-hide');
 							} else {
 								initErrorFunc();
 								alert(data.desc);
 							}
 						});
+
 						initPainter.setCanvasSize(1330, 728);
-						sketch.init('canvas-wrap', "active"); //skeetch 初始化	
+						sketch.init('canvas-wrap', "passive"); //skeetch 初始化
+
+						pomelo.on('room.draw', function (data) {
+							if ((data.data.op)[0])
+							sketch && sketch.mode == 'passive' && sketch.onCommand(data.data.op);
+
+							/**
+							 * 监听教师鼠标位置移动
+							 */
+							if ((data.data.op)[1].length) {
+								$('.p-mouse').css({
+									'left' : (data.data.op)[1][0],
+									'top' : (data.data.op)[1][1]
+								});
+							}
+							
+						})
+
 					});
 
     			} else {

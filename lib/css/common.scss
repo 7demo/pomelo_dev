@@ -10,6 +10,9 @@ body{
     min-width: 1440px;
     height: 100%;
 }
+.main{
+	min-height: 500px;
+}
 .border-box{
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -52,6 +55,12 @@ body{
 	background:$p-bg;
 	border:$p-line solid 1px;
 	z-index: 150;
+	.pop-title{
+		border-bottom: $line-color solid 1px;
+		padding-bottom: 10px;
+		margin-bottom: 20px;
+		color:$main-color;
+	}
 	.pop-content{
 		padding:10px 0;
 	}
@@ -250,6 +259,69 @@ body{
 .text-center{
 	text-align: center;
 }
+.select{
+	display:inline-block;
+	position:relative;
+	box-sizing : border-box;
+	-webkit-box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	min-width: 200px;
+	height:34px;
+	line-height: 34px;
+	border:$line-color solid 1px;
+	background:#fff;
+	text-align: left !important;
+	ul,i.fa{
+		position:absolute;
+		z-index: 5;
+	}
+	i.fa{
+		right:10px;
+		top:6px;
+		font-size: 20px;
+		color:lighten($font-color, 20%);
+	}
+	span{
+		display:inline-block;
+		width:calc(100% - 15px);
+		width:-webkit-calc(100% - 15px);
+		width:-moz-calc(100% - 15px);
+		width:-ms-calc(100% - 15px);
+		text-indent: 10px;
+	}
+	ul{
+		display:none;
+		top:32px;
+		left:-1px;
+		width:100%;
+		max-height:500%;
+		overflow-y:scroll; 
+		background:#fff;
+		border:$line-color solid 1px;
+		li{
+			width:100%;
+			font-size: 14px;
+			text-indent: 10px;
+			cursor: pointer;
+			color:lighten($font-color, 5%);
+			&:nth-child(odd) {
+				background:lighten($line-color, 15%);
+				&:hover{
+					background:lighten($line-color, 12%);
+				}
+			}
+			&:nth-child(even) {
+				&:hover{
+					background:darken(#fff, 7%);
+				}
+			}
+			&:hover{
+				color:$main-color;
+			}
+		}
+	}
+
+}
 
 //公共样式
 .border-box{
@@ -262,8 +334,15 @@ body{
 .text-center{
 	text-align: center;
 }
+.placeholder{
+	width:100%;
+	min-height: 100px;
+	line-height: 100px;
+	font-size: 20px;
+	text-align: center;
+}
 
-//脚步
+//脚部
 .footer{
 	margin-top: 100px;
 	padding:40px 0;

@@ -1,0 +1,65 @@
+<link rel="import" href="/views/public/head.html?__inline">
+<link rel="stylesheet" href="/lib/css/account.scss">
+<body>
+
+<!-- //导航 -->
+<div class="yellow-nav">
+	<link rel="import" href="/views/public/nav.html?__inline">
+</div>
+<!-- //导航 end -->
+
+<!-- //账号框 -->
+<div  class="account-wrap m0a">
+	<h1>登录</h1>
+		<form id='studentLogin' action="">
+			<dl>
+				<dt>手机号码：</dt>
+				<dd>
+					<input type="text" class='input' name='phone' required='required' value='15921425553'>
+					<span class="errorMsg"></span>
+				</dd>
+			</dl>
+			<dl>
+				<dt>登录密码：</dt>
+				<dd class='mul-input'>
+					<input type="password" class='input pwd' name='password' required='required' value="87654321">
+					<input type="text" class='input pwd fn-hide' name='passwordTxt' value="87654321">
+					<i class="fa fa-eye fn-hide"></i>
+					<i class="fa fa-eye-slash"></i>
+					<span class="errorMsg"></span>
+				</dd>
+			</dl>
+			<dl>
+				<dt></dt>
+				<dd class='text-right'>
+					<a href="/web/account/getpwdTutor">找回密码</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt></dt>
+				<dd>
+					<button class='btn btn-main submit'>登录</button>
+					<span class="errorMsg"></span>
+					<span class="successMsg"></span>
+				</dd>
+			</dl>
+		</form>
+</div>
+<!-- //账号框 end -->
+
+<!-- //footer -->
+<link rel="import" href="/views/public/foot.html?__inline">
+<!-- //footer -->
+
+<script src='/lib/compontent/requirejs/require.js'></script>
+<script>
+	require(['/lib/js/account/main', '/lib/js/common/common'], function (account, common) {
+		//账户js
+		account.init();
+		//通用js
+		common.init();
+	})
+</script>
+
+</body>
+</html>
