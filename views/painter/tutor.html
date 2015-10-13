@@ -232,6 +232,41 @@
 	</div>
 	<!-- //对方断电重连中 end -->
 
+	<!-- //环境监测列表 -->
+	<div class="p-check-env pop fn-hide">
+
+		<h3>画板初始化过程中...</h3>	
+	
+		<ul class='border-box'>
+			<li class='check-ing'>
+				<i class="fa fa-repeat fa-spin"></i>
+				<i class="fa fa-check-circle-o"></i>
+				<i class="fa fa-times"></i>
+				加载音频插件
+			</li>
+			<li class='check-fail'>
+				<i class="fa fa-repeat fa-spin"></i>
+				<i class="fa fa-check-circle-o"></i>
+				<i class="fa fa-times"></i>
+				启动音频
+			</li>
+			<li class='check-success'>
+				<i class="fa fa-repeat fa-spin"></i>
+				<i class="fa fa-check-circle-o"></i>
+				<i class="fa fa-times"></i>
+				启动麦克风
+			</li>
+			<li class='check-success'>
+				<i class="fa fa-repeat fa-spin"></i>
+				<i class="fa fa-check-circle-o"></i>
+				<i class="fa fa-times"></i>
+				开始进行录制上课
+			</li>
+		</ul>
+
+	</div>
+	<!-- //环境监测列表 end -->
+
 	<!-- //jquery 与配置js -->
 	<script src="/lib/js/config.js"></script>
 	<script type="text/javascript" src="/lib/js/classroom/sketch/user.js"></script>
@@ -292,14 +327,6 @@
 			$('.loading').html('<a href="/web/room">重启匹配</a>')
 		};
 		
-		//启动音视频通讯sdk
-		// log(external.StartQAVSdk("someone", "12344", 200002), '系统消息') 
-		// //停止音视频通讯sdk
-		// // log(external.StopQAVSdk(), '系统消息');
-		// //开始录音
-		// log(external.StartRecordAudio(), '系统消息');
-		// //停止录音
-		// log(external.StopRecordAudio(), '系统消息');
 
 	</script>
 	<!-- //状态检测end -->

@@ -1,0 +1,45 @@
+<!-- //教师个人中心列表 -->
+<div class='center-teacher-nav border-box fn-clear'>
+	<ul>
+		<% if (sidebar == 'studentMember') { %>
+			<li class='border-box active'>
+				<a href="/web/user/studentMember">
+					<i class="fa fa-meh-o"></i>
+					优思会员
+				</a>
+			</li>
+		<% } else { %>
+			<li class='border-box'>
+				<a href="/web/user/studentMember">
+					<i class="fa fa-meh-o"></i>
+					优思会员
+				</a>
+			</li>
+		<% } %>
+		<% if (sidebar == 'studentAnswer') { %>
+			<li class='border-box active'>
+				<a href="/web/user/studentAnswer">
+					<i class="fa fa-list-alt"></i>
+					上课记录
+				</a>
+			</li>
+		<% } else { %>
+			<li class='border-box'>
+				<a href="/web/user/studentAnswer">
+					<i class="fa fa-list-alt"></i>
+					上课记录
+				</a>
+			</li>
+		<% } %>
+		<li class='border-box'>
+			<a href="/web/account/logout">
+				<i class="fa fa-power-off"></i>
+				退出登录
+			</a>
+		</li>
+	</ul>
+</div>
+<script>
+	var nav = '<%-nav %>'
+</script>
+<!-- //教师个人中心列表 end -->

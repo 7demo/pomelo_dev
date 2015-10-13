@@ -41,16 +41,18 @@
 			<div class="ctn border-box fn-clear">
 				<dl>
 					<dt>到期时间：</dt>
-					<dd>2015-10-14</dd>
+					<dd id='exchangeCode'></dd>
 				</dl>
 				<dl>
-					<dt>兑换：</dt>
-					<dd><input type="text"  class='input'></dd>
+					<dt>兑&nbsp;换 码 ：</dt>
+					<dd><input type="text" name='exchangeCode' class='input'></dd>
 				</dl>
 				<dl>
 					<dt></dt>
 					<dd>
-						<button class="btn btn-main">提交</button>
+						<button class="btn btn-main" id='exchangeCodeSubmit'>提交</button>
+						<span class="errorMsg"></span>
+						<span class="successMsg"></span>
 					</dd>
 				</dl>
 			</div>
@@ -69,6 +71,16 @@
 <!-- //footer -->
 <link rel="import" href="/views/public/foot.html?__inline">
 <!-- //footer -->
+
+<script src='/lib/compontent/requirejs/require.js'></script>
+<script>
+	require(['/lib/js/userStudent/main', '/lib/js/common/common'], function (student, common) {
+		//家教js
+		student.init();
+		//通用js
+		common.init();
+	})
+</script>
 
 </body>
 </html>

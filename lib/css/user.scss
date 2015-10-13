@@ -81,6 +81,11 @@
 				margin:0;
 				padding:0;
 				color:$font-color;
+				.input{
+					height:32px;
+					width: 400px;
+					line-height:32px;
+				}
 			}
 			dd.tips{
 				font-size: 12px;

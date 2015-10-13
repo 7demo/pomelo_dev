@@ -398,3 +398,47 @@ html,body{
 		}
 	}
 }
+.p-check-env{
+	h3{
+		text-align: center;
+		font-size: 18px;
+	}
+	ul{
+		margin-top: 20px;
+		width:100%;
+		padding:10px 20px;  
+		border:$line-color solid 1px;
+		background:#fff;
+		li{
+			font-size: 14px;
+			line-height: 30px;
+			i.fa{
+				position:relative;
+				top:1px;
+				font-size: 18px;
+				display:none;
+			}
+			i.fa-check-circle-o{
+				color:$green;
+			}
+			i.fa-times{
+				color:$red;
+			}
+		}
+		li.check-ing{
+			i.fa-repeat{
+				display:inline-block;
+			}
+		}
+		li.check-fail{
+			i.fa-check-circle-o{
+				display:inline-block;
+			}
+		}
+		li.check-success{
+			i.fa-times{
+				display:inline-block;
+			}
+		}
+	}
+}
