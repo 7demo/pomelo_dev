@@ -8,13 +8,9 @@
 		</div>
 		<!-- //logo end -->
 		
-		<!-- //链接 -->
-	
-		<!-- //链接 end -->
 
 		<!-- //登录 -->
 		<div class="fn-right">
-
 			<% if (nav == 'room') { %>
 				<a href="/web/room" class='active'>答疑房间</a>
 			<% } else { %>
@@ -48,12 +44,12 @@
 					<% } %>
 				<% } %>
 			<% } else { %>
-				<% if (nav == 'Login') { %>
-					<% if (role == 'teacher') { %>
+				<% if (nav == 'login') { %>
+					<% if (navRole == 'teacher') { %>
 						<a href="/web/account/tutorLogin" class='active'>教师入口</a>
 						<a href="/web/account/studentLogin">学生入口</a>
 					<% } %>
-					<% if (role == 'student') { %>
+					<% if (navRole == 'student') { %>
 						<a href="/web/account/tutorLogin" >教师入口</a>
 						<a href="/web/account/studentLogin" class='active'>学生入口</a>
 					<% } %>
@@ -62,17 +58,6 @@
 					<a href="/web/account/studentLogin">学生入口</a>
 				<% } %>
 			<% } %>
-			
-			<!--
-			<a class='' href="/users/login">
-				<i class="fa fa-user-plus"></i>
-				注册
-			</a>
-			<a href="/users/login">
-				<i class="fa fa-user"></i>
-				登录
-			</a>
-			-->
 		</div>
 		<!-- //登录 end -->
 	</div>
