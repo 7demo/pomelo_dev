@@ -61,13 +61,21 @@
 			</div>
 			<!-- //题目信息 end -->
 
+			<!-- //播放控制按钮 -->
+			<div class="p-play-control">
+				<i id='play' class="fa fa-play-circle-o fn-hide"></i>
+				<i id='pause' class="fa fa-pause fn-hide"></i>
+				<i id='replay' class="fa fa-refresh fn-hide"></i>
+			</div>
+			<!-- //播放控制按钮 end -->
+
 
 		</div>
 		<!-- //右边栏 end -->
 	
 		<!-- //右边画板 -->
 		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1330px; height:728px;'>
-			<!-- <canvas id='canvas' class='canvas'></canvas> -->
+			<i id='canvas-mouse' class="fa fa-pencil"></i>
 		</div>
 		<!-- //右边画板 end -->
 
@@ -89,18 +97,12 @@
 
 	<!-- //jquery 与配置js -->
 	<script src="/lib/js/config.js"></script>
-	<script type="text/javascript" src="/lib/js/classroom/sketch/user.js"></script>
-	
 	<script src="/lib/compontent/jquery/jquery.min.js"></script>
 	<!-- //jquery 与配置js end -->
-
+		
 	<!-- //js模块 -->
-	<script src="/lib/js/classroom/log.js"></script>
-	<script src="/lib/js/classroom/chat.js"></script>
-	<script src="/lib/js/classroom/setQuestionSize.js"></script>
-	<script src="/lib/js/classroom/painter_init.js"></script>
+	<script src="/lib/js/classroom/classroomModule.js"></script>
 	<!-- //js模块 end -->
-
 	
 	<!-- //画板sketchjs -->
 	<script type="text/javascript" src="/lib/js/classroom/sketch/fabric.min.js"></script>
@@ -113,9 +115,10 @@
 
 	<!-- //重绘 -->
 	<script type="text/javascript">
-	  	user.answerID = '<%-answerID %>';
-	  	// user.answerID = '143fd525-f3ed-47ce-85cc-5c8b09f2c3fb';
-		sketch.init('canvas-wrap','passive');
+		var user = {
+			answerID : '<%-answerID %>'
+		};
+		sketch.init('canvas-wrap','passive', "canvas-mouse");
 		replay.start();
 	</script>
 	<!-- //重绘 end -->

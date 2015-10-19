@@ -111,7 +111,7 @@
 	
 		<!-- //右边画板 -->
 		<div id='canvas-wrap' class="canvas-wrap border-box" style='width:1330px; height:728px'>
-			
+			<i id='canvas-mouse' class="fa fa-pencil"></i>
 		</div>
 		<!-- //右边画板 end -->
 
@@ -119,11 +119,11 @@
 	<!-- //main end -->
 
 	<!-- //shadow -->
-	<div class="shadow"></div>
+	<div class="shadow fn-hide"></div>
 	<!-- //shadow end -->
 
 	<!-- //加载中 -->
-	<div class="loading">
+	<div class="loading fn-hide">
 		<i class="fa fa-spinner fa-spin"></i>
 		<p>音频加载中，时间可能有点长，请耐心等待...</p>
 	</div>
@@ -201,33 +201,28 @@
 	</div>
 	<!-- //评价 end -->
 
+	<!-- //服务器渲渲染用户数据 -->
+	<script>
+		var user = {
+			username : '<%-user.nickname %>',
+			answerID : undefined,
+			roomID : '<%-roomID %>',
+			role : "<%-user.role %>",
+			photo : '<%-user.photo %>',
+			uid : '<%-user.uid %>'
+		};
+	</script>
+	<!-- //服务器渲渲染用户染数据 end -->
+
 	<!-- //jquery 与配置js -->
 	<script src="/lib/js/config.js"></script>
-	<script type="text/javascript" src="/lib/js/classroom/sketch/user.js"></script>
-	<script>
-
-		/**
-		 * 拿到服务器数据
-		 */
-		user.username = '<%-user.nickname %>';
-		user.answerID = undefined;
-		user.roomID = '<%-roomID %>';
-		user.role = "<%-user.role %>";
-		user.photo = '<%-user.photo %>';
-		user.uid = '<%-user.uid %>';
-
-	</script>
 	<script src="/lib/compontent/jquery/jquery.min.js"></script>
 	<script src="/lib/compontent/jquery-awesome-cursor/dist/jquery.awesome-cursor.min.js"></script>
 	<!-- //jquery 与配置js end -->
 	
 	<!-- //js模块 -->
-	<script src="/lib/js/classroom/log.js"></script>
-	<script src="/lib/js/classroom/chat.js"></script>
-	<script src="/lib/js/classroom/setQuestionSize.js"></script>
-	<script src="/lib/js/classroom/get_canvas_size.js"></script>
-	<script src="/lib/js/classroom/painter_init.js"></script>
-	<script src="lib/js/classroom/evaluate.js"></script>
+	<script src="/lib/js/modules/spadger.js"></script>
+	<script src="/lib/js/classroom/classroomModule.js"></script>
 	<!-- //js模块 end -->
 	
 	<!-- //画板sketchjs -->
@@ -235,97 +230,60 @@
 	<script type="text/javascript" src="/lib/js/classroom/sketch/canvas.js"></script>
 	<script type="text/javascript" src="/lib/js/classroom/sketch/sketch.js"></script>
 	<!-- //画板sketchjs end -->
-
-	<!-- //状态检测 -->
-	<script>
-		//检测加载腾讯sdk是否成功 以及 录音是否开始成功
-		var tencentsdkRecordCheck = function (data){
-			var tencentSdkCheck = external.StartQAVSdk(user.uid, "1234", user.roomID);
-			if (tencentSdkCheck) {
-				log('sdk初始化成功', '系统消息');
-				/**
-				 * 问题尺寸初始化
-				 */
-				$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
-				setQuestion.init();
-				$('.shadow, .loading').addClass('fn-hide');
-			} else {
-				initErrorFunc();
-				alert('加载sdk失败');
-			}
-		}
-
-		//加载失败的处理
-		var initErrorFunc = function () {
-			cloneWindowFlag = true;
-			$('.loading').html('<a href="/web/room">重启匹配</a>')
-		};
-		
-		//启动音视频通讯sdk
-		// log(external.StartQAVSdk("someone", "12344", 200002), '系统消息') 
-		// //停止音视频通讯sdk
-		// // log(external.StopQAVSdk(), '系统消息');
-		// //开始录音
-		// log(external.StartRecordAudio(), '系统消息');
-		// //停止录音
-		// log(external.StopRecordAudio(), '系统消息');
-
-	</script>
-	<!-- //状态检测end -->
+	
 
 	<!-- //链接服务器 -->
 	<script src="/lib/js/classroom/pomepo/build/build.js"></script>
 	<script type="text/javascript">
 		require('boot');
 		var pomelo = window.pomelo,
-			host = undefined,
-			port = undefined,
-			roomID = '<%-roomID %>',
-    		uid = '<%-user.uid %>';
+			pomelo_host = undefined,
+			pomelo_port = undefined;
     	$.ajax({
     		type : 'GET',
-    		url : config.API_URL + '/api/room/conf?id=' + roomID,
+    		url : config.API_URL + '/api/room/conf?id=' + user.roomID,
     		success : function (data) {
     			console.log('data', data)
     			if (!!data && typeof data == 'string') {
     				data = JSON.parse(data);
     			}
     			if (data.code == 200) {
-    				host = data.data.host;
-    				
-    				port = data.data.port;
+
+    				pomelo_host = data.data.host;
+    				pomelo_port = data.data.port;
     				user.answerID = data.data.answerID;
 
     				// 开始长连接匹配
     				pomelo.init({
-						host: host,
-						port: port,
+						host: pomelo_host,
+						port: pomelo_port,
 						log: true
 					}, function(data) {
 						//进入房间-push
 
 						pomelo.request('connector.roomHandler.enter', {
-							uid: uid,
+							uid: user.uid,
 							role: 'student',
-							roomID: roomID 
+							roomID: user.roomID 
 						}, function (data) {
 							console.log(data, '进入房间')
 							if (data.code  == 200) {
-								tencentsdkRecordCheck(data);
-								$('.shadow, .loading').addClass('fn-hide');
+								$('#p-question ul').html('<li><img src="' + data.data.question.imgUrl +'"></img></li>');
+								classroomModule.setQuestion();
+								// classroomModule.tencentsdkRecordStudentCheck(data);
 							} else {
-								initErrorFunc();
+								classroomModule.initErrorFunc();
 								alert(data.desc);
 							}
 						});
 
-						initPainter.setCanvasSize(1330, 728);
-						sketch.init('canvas-wrap', "passive"); //skeetch 初始化
+						classroomModule.initPainter(1330, 728);
+						sketch.init('canvas-wrap', "passive", "canvas-mouse"); //skeetch 初始化
 
 						pomelo.on('room.draw', function (data) {
-							if ((data.data.op)[0])
-							sketch && sketch.mode == 'passive' && sketch.onCommand(data.data.op);
 
+							if ((data.data.op)[0])
+							sketch && sketch.observeObj.mode == 'passive' && sketch.onCommand(data.data.op);
 							/**
 							 * 监听教师鼠标位置移动
 							 */
@@ -341,12 +299,13 @@
 					});
 
     			} else {
-    				initErrorFunc();
+    				classroomModule.initErrorFunc();
     				alert(data.desc + ', 请重新匹配');
     			}
     		},
     		error : function () {
-
+    			classroomModule.initErrorFunc();
+				alert('网络错误, 请重新匹配');
     		}
     	})
 
